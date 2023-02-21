@@ -1,0 +1,25 @@
+  .custom-bg-image{
+        background-image: url("/images/background3.jpg");
+        background-repeat: no-repeat;
+        max-width: 100%;
+        height: 50vh;
+  }
+  .bg-image{
+        background-image: url("/images/background6.jpg");
+        background-repeat: no-repeat;
+        max-width: 100%;
+        height: 50vh;
+  }
+
+  .pad{
+    padding-bottom: 10%;
+  }
+  .custom-margins{
+    margin-top: 4%;
+  }
+
+  #form2{
+    display:none;
+  }
+
+
