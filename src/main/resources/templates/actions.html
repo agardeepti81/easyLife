@@ -13,11 +13,13 @@
     <header class="row bg-dark">
         <div class="col-3"><img src="./images/easyLifeLogo.png" height="100px" ></div>
         <div class="col-8"></div>
-        <div class="col-1 text-white d-flex align-items-center"><h6>Welcome username</h6></div>
+        <div class="col-1 text-white d-flex align-items-center">
+            <h6 th:text="|Welcome, ${userName}|"></h6>
+        </div>
     </header>
     <div class="row mt-4 mb-2 text-center">
     <div class="col-3"></div>
-    <div class="col-6"><h4 class="font-monospace">Please choose from the below options</h4></div>
+    <div class="col-6"><h4 class="myfont">Please choose from the below options</h4></div>
     <div class="col-3"></div>  
     </div>
     <section class="row">

@@ -26,9 +26,12 @@ public class Items {
     @NonNull
     String measuringUnit;
 
-
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "category_id")
     Categories category;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "users_id")
+    Users user;
 
 }

@@ -1,6 +1,5 @@
 package org.perscholas.easylife.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.easylife.dao.CategoriesRepoI;
 import org.perscholas.easylife.dao.ItemsRepoI;
@@ -12,8 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -42,11 +42,26 @@ public class HomeController {
         return "actions";
     }
 
+    @PostMapping("/user_login")
+    public String userLogin(@ModelAttribute("isUserAvailable") Users isUserAvailable, Model model){
+        Users existinguser = new Users();
+        existinguser = user.findUserByEmailAndPassword(isUserAvailable.getEmail(), isUserAvailable.getPassword());
+        if(existinguser == null)
+        {
+            model.addAttribute("notExist","User does not exist");
+            return "index";
+        }
+        else {
+            model.addAttribute("userName", existinguser.getName());
+            return "actions";
+        }
+    }
+
     @PostMapping("/user_registration")
     public String userRegistration(@ModelAttribute("newUser") Users newUser){
         log.warn("User registration method" + newUser);
         log.warn(newUser.toString());
         user.save(newUser);
-        return "actions";
+        return "index";
     }
 }

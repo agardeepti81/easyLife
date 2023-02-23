@@ -14,8 +14,8 @@
         <div class="col-3"><img th:src="@{/images/easyLifeLogo.png}" height="100px" ></div>
     </header>
     <div id="mainContent" class="row pad mt-4 text-center">
-        <h2 class="font-monospace">Welcome to EasyLife</h2>
-        <h4 class="font-monospace">shopping list made easier by keeping track of your household inventory </h4>
+        <h2 class="myfont">Welcome to EasyLife</h2>
+        <h4 class="myfont">shopping list made easier by keeping track of your household inventory </h4>
         
         <div class="col-8 custom-margins">
             <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
@@ -53,24 +53,26 @@
               </div>
         </div>
         <div id="form1" class="col-4 text-center bg-warning custom-margins">
-            <form class="d-inline-block align-items-center justify-content-center mt-5">
+            <form method="post" th:action="@{/user_login}" th:object="${isUserAvailable}"
+            class="d-inline-block align-items-center justify-content-center mt-5">
               <h6>Please login to your account</h6>
               <div class="form-outline mt-4 mb-2">
-                <input type="email" id="form2Example10" class="form-control"
-                  placeholder="Email address" />
-                <label class="form-label" for="form2Example10"></label>
+                <input type="email" id="uemail" name="email" class="form-control"
+                  placeholder="Email address" pattern = "^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$" 
+                  title="please provide email in correct format as name@mail.com" required/>
+                <label class="form-label" for="uemail"></label>
               </div>
 
               <div class="form-outline mb-2">
-                <input type="password" id="form2Example21" class="form-control" placeholder="password"/>
-                <label class="form-label" for="form2Example21"></label>
+                <input type="password" id="upassword" name="password" class="form-control" placeholder="password" required/>
+                <label class="form-label" for="upassword"></label>
               </div>
 
               <div class="d-flex align-items-center justify-content-center pt-1 mb-4 pb-1">
-                <button class="btn btn-dark btn-block mb-3 me-3" type="button">Log
+                <button class="btn btn-dark btn-block mb-3 me-3" type="submit">Log
                   in</button>
               </div>
-
+              <p th:text="${notExist}"></p>
               <div class="d-flex align-items-center justify-content-center pb-4">
                 <p class="mb-0 me-2">Don't have an account?</p>
                 <button id="signup" type="button" class="btn btn-dark text-white" 
@@ -83,23 +85,23 @@
               <h6>Please create your account</h6>
               <div class="form-outline mt-4 mb-1">
                 <input type="text" id="name" name="name" class="form-control"
-                  placeholder="Full Name"/>
+                  placeholder="Full Name" pattern="^[a-zA-Z ]+" minlength="3" maxlength="25" title="invalid input" required/>
                 <label class="form-label" for="name"></label>
               </div>
 
               <div class="form-outline mb-1">
                 <input type="email" id="email" name="email" class="form-control"
-                  placeholder="Email address"/>
+                  placeholder="Email address" pattern = "^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$" title="please provide email in correct format as name@mail.com" required/>
                 <label class="form-label" for="email"></label>
               </div>
 
               <div class="form-outline mb-1">
-                <input type="password" id="password" class="form-control" placeholder="password"/>
+                <input type="password" id="password" class="form-control" placeholder="password" required/>
                 <label class="form-label" for="password"></label>
               </div>
 
               <div class="form-outline mb-1">
-                <input type="password" id="confirmP" name="password" class="form-control" placeholder=" confirm password"/>
+                <input type="password" id="confirmP" name="password" class="form-control" placeholder=" confirm password" required/>
                 <label class="form-label" for="confirmP"></label>
               </div>
 

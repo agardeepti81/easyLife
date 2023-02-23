@@ -5,9 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.Hibernate;
 
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="categories")
@@ -29,7 +27,7 @@ public class Categories {
     Set<Users> users = new LinkedHashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<Items> items = new LinkedHashSet<>();
+    List<Items> items = new LinkedList<>();
 
     @Override
     public boolean equals(Object o) {

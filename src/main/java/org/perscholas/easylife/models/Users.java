@@ -7,10 +7,7 @@ import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -37,6 +34,10 @@ public class Users {
             joinColumns = @JoinColumn(name = "users_id"),
             inverseJoinColumns = @JoinColumn(name = "categories_id"))
     Set<Categories> categories = new LinkedHashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Items> items = new LinkedList<>();
+
 
     @Override
     public boolean equals(Object o) {
