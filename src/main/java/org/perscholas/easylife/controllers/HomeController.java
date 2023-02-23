@@ -42,19 +42,40 @@ public class HomeController {
         return "actions";
     }
 
+//    @PostMapping("/user_login")
+//    public String userLogin(@ModelAttribute("isUserAvailable") Users isUserAvailable, Model model){
+//        Users existinguser = new Users();
+//        existinguser = user.findUserByEmailAndPassword(isUserAvailable.getEmail(), isUserAvailable.getPassword());
+//        if(existinguser == null)
+//        {
+//            model.addAttribute("notExist","User does not exist");
+//            return "index";
+//        }
+//        else {
+//            model.addAttribute("userName", existinguser.getName());
+//            return "actions";
+//        }
+//    }
+
     @PostMapping("/user_login")
-    public String userLogin(@ModelAttribute("isUserAvailable") Users isUserAvailable, Model model){
+    public String userLogin(@RequestParam("email") String email, @RequestParam("password") String password, Model model){
         Users existinguser = new Users();
-        existinguser = user.findUserByEmailAndPassword(isUserAvailable.getEmail(), isUserAvailable.getPassword());
+        existinguser = user.findByEmail(email);
         if(existinguser == null)
         {
-            model.addAttribute("notExist","User does not exist");
+            model.addAttribute("notExist","A User with this email does not exist");
             return "index";
         }
-        else {
-            model.addAttribute("userName", existinguser.getName());
-            return "actions";
+        else if(existinguser != null)
+        {
+            if(user.findByEmailAndPassword(email, password) == null)
+            {
+                model.addAttribute("notExist","Please enter the correct password.");
+                return "index";
+            }
         }
+        model.addAttribute("userName", existinguser.getName());
+        return "actions";
     }
 
     @PostMapping("/user_registration")
