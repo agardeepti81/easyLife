@@ -16,8 +16,8 @@ import lombok.experimental.FieldDefaults;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Items {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @NonNull
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     @NonNull
     String itemName;
@@ -33,5 +33,15 @@ public class Items {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "users_id")
     Users user;
+
+    public void addUser(Users u){
+        this.user = u;
+    }
+
+    public void addCategory(Categories c){
+        this.category = c;
+    }
+
+
 
 }

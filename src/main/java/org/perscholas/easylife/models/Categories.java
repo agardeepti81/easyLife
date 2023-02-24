@@ -16,9 +16,10 @@ import java.util.*;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Categories {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    @Id @NonNull
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int cid;
+
     @NonNull
     String categoryName;
 
@@ -33,11 +34,17 @@ public class Categories {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Categories that)) return false;
-        return id == that.id && categoryName.equals(that.categoryName) && Objects.equals(items, that.items);
+        return cid == that.cid && categoryName.equals(that.categoryName) && Objects.equals(items, that.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, categoryName, items);
+        return Objects.hash(cid, categoryName, items);
+    }
+
+    public void addItems(Items i)
+    {
+        items.add(i);
+        i.addCategory(this);
     }
 }
