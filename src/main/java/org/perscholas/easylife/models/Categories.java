@@ -16,8 +16,8 @@ import java.util.*;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Categories {
-    @Id @NonNull
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int cid;
 
     @NonNull

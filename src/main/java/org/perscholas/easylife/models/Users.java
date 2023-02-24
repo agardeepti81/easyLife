@@ -39,9 +39,9 @@ public class Users {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "users_categories",
-            joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "uid"),
-            inverseJoinColumns = @JoinColumn(name = "categories_id", referencedColumnName = "cid"))
-    Set<Categories> categories = new LinkedHashSet<>();
+            joinColumns = @JoinColumn(name = "users_id"),
+            inverseJoinColumns = @JoinColumn(name = "categories_id"))
+    List<Categories> categories = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Items> items = new LinkedList<>();
