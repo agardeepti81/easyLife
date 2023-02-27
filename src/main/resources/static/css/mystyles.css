@@ -24,5 +24,8 @@
   .myfont{
     font-family: monospace;
   }
+  #itemInputForm{
+    display: none;
+  }
 
 

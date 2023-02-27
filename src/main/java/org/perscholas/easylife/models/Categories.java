@@ -1,5 +1,6 @@
 package org.perscholas.easylife.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -24,7 +25,8 @@ public class Categories {
     String categoryName;
 
     @ToString.Exclude
-    @ManyToMany(mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JsonBackReference
     Set<Users> users = new LinkedHashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -41,6 +43,7 @@ public class Categories {
     public int hashCode() {
         return Objects.hash(cid, categoryName, items);
     }
+
 
     public void addItems(Items i)
     {

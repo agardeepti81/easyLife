@@ -42,6 +42,4 @@ public class Items {
         this.category = c;
     }
 
-
-
 }

@@ -8,10 +8,7 @@ import org.perscholas.easylife.models.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -35,12 +32,12 @@ public class HomeController {
         log.info("i am in the index controller method");
         return "index";
     }
-
-    @GetMapping(value = {"action"})
-    public String actions(Model model){
-        log.info("i am in the index controller method");
-        return "actions";
-    }
+//
+//    @GetMapping(value = {"action"})
+//    public String actions(Model model){
+//        log.info("i am in the index controller method");
+//        return "actions";
+//    }
 
 //    @PostMapping("/user_login")
 //    public String userLogin(@ModelAttribute("isUserAvailable") Users isUserAvailable, Model model){
@@ -75,6 +72,7 @@ public class HomeController {
             }
         }
         model.addAttribute("userName", existinguser.getName());
+        model.addAttribute("userId",existinguser.getUid());
         return "actions";
     }
 
@@ -83,6 +81,11 @@ public class HomeController {
         log.warn("User registration method" + newUser);
         log.warn(newUser.toString());
         user.save(newUser);
+        newUser.addCategory(category.findById(1));
+        newUser.addCategory(category.findById(2));
+        user.save(newUser);
         return "index";
     }
+
+
 }

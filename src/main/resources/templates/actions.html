@@ -11,7 +11,7 @@
 <body>
 <div class="container-fluid mt-1">
     <header class="row bg-dark">
-        <div class="col-3"><img src="./images/easyLifeLogo.png" height="100px" ></div>
+        <div class="col-3"><img src="/images/easyLifeLogo.png" height="100px" ></div>
         <div class="col-8"></div>
         <div class="col-1 text-white d-flex align-items-center">
             <h6 th:text="|Welcome, ${userName}|"></h6>
@@ -26,7 +26,7 @@
     <div class="col-1"></div>    
     <div class="col-2 card text-center bg-warning ms-3 mb-3 me-5">
         <div class="card-body">
-            <h5 class="card-text">Add/Create</h5>
+            <a th:href="@{/add/}+${userId}" target="_parent" ><h5 class="card-text">Add/Create</h5></a>
         </div>
     </div>    
     <!-- <div class="col-1"></div> -->

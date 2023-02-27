@@ -18,15 +18,17 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MyCommandLineRunner implements CommandLineRunner {
+    ItemsRepoI items;
     UsersRepoI users;
     CategoriesRepoI categories;
-    ItemsRepoI items;
+
 
     @Autowired
     public MyCommandLineRunner(UsersRepoI users, CategoriesRepoI categories, ItemsRepoI items) {
+        this.items = items;
         this.users = users;
         this.categories = categories;
-        this.items = items;
+
     }
 
     @PostConstruct
@@ -38,20 +40,19 @@ public class MyCommandLineRunner implements CommandLineRunner {
         Users user1 = new Users("John Doe","johndoe@gmail.com","passWORD@12");
         Users user2 = new Users("Natalie Bennet","nbennet@msn.com","passWORD@12");
         Users user3 = new Users("Ron Weasley","rweasley@yahoo.com","passWORD@12");
-
-        users.saveAndFlush(user1);
-        users.saveAndFlush(user2);
-        users.saveAndFlush(user3);
+        users.save(user1);
+        users.save(user2);
+        users.save(user3);
 
         Categories category1 = new Categories("Grocery");
         Categories category2 = new Categories("Electrical");
         Categories category3 = new Categories("Lawn and Garden");
         Categories category4 = new Categories("Kitchen and Dining");
 
-        categories.saveAndFlush(category1);
-        categories.saveAndFlush(category2);
-        categories.saveAndFlush(category3);
-        categories.saveAndFlush(category4);
+        categories.save(category1);
+        categories.save(category2);
+        categories.save(category3);
+        categories.save(category4);
 
         Items item1 = new Items("Rice",20,"lbs");
         Items item2 = new Items("Sugar",5,"lbs");
@@ -72,27 +73,27 @@ public class MyCommandLineRunner implements CommandLineRunner {
         items.save(item7);
         items.save(item8);
         items.save(item9);
-//
-//       //User1 item and category adding process
-       user1.addCategory(category1);
-       user1.addCategory(category2);
-//       user1.addCategory(category2);
-       user1.addItems(item1);
-       user1.addItems(item2);
-       user1.addItems(item3);
-       users.saveAndFlush(user1);
-       category1.addItems(item1);
-       category1.addItems(item2);
-       category2.addItems(item3);
-       categories.save(category1);
-       categories.save(category2);
-//       //User2 Item and Category adding process
+
+        //User1 item and category adding process
+        category1.addItems(item1);
+        category1.addItems(item2);
+        category2.addItems(item3);
+        categories.save(category1);
+        categories.save(category2);
+        user1.addCategory(category1);
+        user1.addCategory(category2);
+        user1.addItems(item1);
+        user1.addItems(item2);
+        user1.addItems(item3);
+        users.save(user1);
+
+        //User2 Item and Category adding process
         user2.addCategory(category1);
+        user2.addCategory(category2);
         user2.addCategory(category3);
         user2.addItems(item9);
         user2.addItems(item4);
         user2.addItems(item5);
-        user2.addCategory(category1);
         users.save(user2);
         category1.addItems(item9);
         category2.addItems(item4);
@@ -100,18 +101,22 @@ public class MyCommandLineRunner implements CommandLineRunner {
         categories.save(category1);
         categories.save(category2);
         categories.save(category3);
-//
-//        //User Item and Category adding process
-//        user3.addCategory(category3);
-//        user3.addCategory(category4);
-//        user3.addItems(item6);
-//        user3.addItems(item7);
-//        user3.addItems(item8);
-//        users.save(user3);
-//        category3.addItems(item6);
-//        category4.addItems(item7);
-//        category4.addItems(item8);
-//        categories.save(category3);
-//        categories.save(category4);
+
+        //User3 Item and Category adding process
+        user3.addCategory(category3);
+        user3.addCategory(category4);
+        user3.addItems(item6);
+        user3.addItems(item7);
+        user3.addItems(item8);
+        users.save(user3);
+        category3.addItems(item6);
+        category4.addItems(item7);
+        category4.addItems(item8);
+        categories.save(category3);
+        categories.save(category4);
+
    }
 }
+
+
+

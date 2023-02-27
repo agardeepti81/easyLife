@@ -1,15 +1,18 @@
 package org.perscholas.easylife.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
 @NoArgsConstructor
+@Slf4j
 //@RequiredArgsConstructor
 @Getter
 @Setter
@@ -37,11 +40,12 @@ public class Users {
         this.password = password;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "users_categories",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "categories_id"))
-    List<Categories> categories = new ArrayList<>();
+            joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "uid"),
+            inverseJoinColumns = @JoinColumn(name = "categories_id", referencedColumnName = "cid"))
+    @JsonManagedReference
+    List<Categories> categories = new LinkedList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Items> items = new LinkedList<>();
