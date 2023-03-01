@@ -26,9 +26,9 @@ public class Categories {
 
     @ToString.Exclude
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JsonBackReference
     Set<Users> users = new LinkedHashSet<>();
 
+    @ToString.Exclude
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Items> items = new LinkedList<>();
 

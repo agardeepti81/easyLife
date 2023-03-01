@@ -24,9 +24,6 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int uid;
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    int uid;
     @NonNull
     String name;
     @NonNull
@@ -40,12 +37,14 @@ public class Users {
         this.password = password;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ToString.Exclude
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "users_categories",
             joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "uid"),
             inverseJoinColumns = @JoinColumn(name = "categories_id", referencedColumnName = "cid"))
-    @JsonManagedReference
-    List<Categories> categories = new LinkedList<>();
+
+    Set<Categories> categories = new LinkedHashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Items> items = new LinkedList<>();

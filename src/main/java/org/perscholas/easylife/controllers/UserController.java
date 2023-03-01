@@ -61,7 +61,7 @@ public class UserController {
 
         model.addAttribute("itemName",newItem.getItemName());
         model.addAttribute("userId",testuser.getUid());
-        return "addItems";
+        return "redirect: /addItems";
     }
 
 

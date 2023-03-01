@@ -1,10 +1,13 @@
 package org.perscholas.easylife.controllers;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.easylife.dao.CategoriesRepoI;
 import org.perscholas.easylife.dao.ItemsRepoI;
 import org.perscholas.easylife.dao.UsersRepoI;
 import org.perscholas.easylife.models.Users;
+import org.perscholas.easylife.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,50 +17,31 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
-
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class HomeController {
-    UsersRepoI user;
-    CategoriesRepoI category;
-    ItemsRepoI items;
+    UsersRepoI usersRepoI;
+    CategoriesRepoI categoriesRepoI;
+    ItemsRepoI itemsRepoI;
+    UserServices userServices;
 
     @Autowired
-    public HomeController(UsersRepoI user, CategoriesRepoI category, ItemsRepoI items) {
-        this.user = user;
-        this.category = category;
-        this.items = items;
+    public HomeController(UsersRepoI usersRepoI, CategoriesRepoI categoriesRepoI, ItemsRepoI itemsRepoI, UserServices userServices) {
+        this.usersRepoI = usersRepoI;
+        this.categoriesRepoI = categoriesRepoI;
+        this.itemsRepoI = itemsRepoI;
+        this.userServices = userServices;
     }
 
     @GetMapping(value = {"/", "index"})
     public String homePage(){
-        log.info("i am in the index controller method");
+        log.info("Return Homepage");
         return "index";
     }
-//
-//    @GetMapping(value = {"action"})
-//    public String actions(Model model){
-//        log.info("i am in the index controller method");
-//        return "actions";
-//    }
-
-//    @PostMapping("/user_login")
-//    public String userLogin(@ModelAttribute("isUserAvailable") Users isUserAvailable, Model model){
-//        Users existinguser = new Users();
-//        existinguser = user.findUserByEmailAndPassword(isUserAvailable.getEmail(), isUserAvailable.getPassword());
-//        if(existinguser == null)
-//        {
-//            model.addAttribute("notExist","User does not exist");
-//            return "index";
-//        }
-//        else {
-//            model.addAttribute("userName", existinguser.getName());
-//            return "actions";
-//        }
-//    }
 
     @PostMapping("/user_login")
     public String userLogin(@RequestParam("email") String email, @RequestParam("password") String password, Model model){
         Users existinguser = new Users();
-        existinguser = user.findByEmail(email);
+        existinguser = usersRepoI.findByEmail(email);
         if(existinguser == null)
         {
             model.addAttribute("notExist","A User with this email does not exist");
@@ -65,7 +49,7 @@ public class HomeController {
         }
         else if(existinguser != null)
         {
-            if(user.findByEmailAndPassword(email, password) == null)
+            if(usersRepoI.findByEmailAndPassword(email, password) == null)
             {
                 model.addAttribute("notExist","Please enter the correct password.");
                 return "index";
@@ -77,15 +61,11 @@ public class HomeController {
     }
 
     @PostMapping("/user_registration")
-    public String userRegistration(@ModelAttribute("newUser") Users newUser){
+    public String userRegistration(@ModelAttribute("newUser") Users newUser) throws Exception {
         log.warn("User registration method" + newUser);
         log.warn(newUser.toString());
-        user.save(newUser);
-        newUser.addCategory(category.findById(1));
-        newUser.addCategory(category.findById(2));
-        user.save(newUser);
+        usersRepoI.save(newUser);
+        userServices.addCategoriesToUser(newUser);
         return "index";
     }
-
-
 }
