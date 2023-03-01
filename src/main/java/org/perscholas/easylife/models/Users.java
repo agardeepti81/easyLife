@@ -44,8 +44,7 @@ public class Users {
     @JoinTable(name = "users_categories",
             joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "uid"),
             inverseJoinColumns = @JoinColumn(name = "categories_id", referencedColumnName = "cid"))
-    @JsonManagedReference
-    List<Categories> categories = new LinkedList<>();
+    Set<Categories> categories = new LinkedHashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Items> items = new LinkedList<>();

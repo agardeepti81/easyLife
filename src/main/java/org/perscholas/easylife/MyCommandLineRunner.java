@@ -78,42 +78,48 @@ public class MyCommandLineRunner implements CommandLineRunner {
         category1.addItems(item1);
         category1.addItems(item2);
         category2.addItems(item3);
-        categories.save(category1);
-        categories.save(category2);
-        user1.addCategory(category1);
-        user1.addCategory(category2);
-        user1.addItems(item1);
-        user1.addItems(item2);
-        user1.addItems(item3);
-        users.save(user1);
-
-        //User2 Item and Category adding process
-        user2.addCategory(category1);
-        user2.addCategory(category2);
-        user2.addCategory(category3);
-        user2.addItems(item9);
-        user2.addItems(item4);
-        user2.addItems(item5);
-        users.save(user2);
-        category1.addItems(item9);
-        category2.addItems(item4);
-        category3.addItems(item5);
-        categories.save(category1);
-        categories.save(category2);
-        categories.save(category3);
-
-        //User3 Item and Category adding process
-        user3.addCategory(category3);
-        user3.addCategory(category4);
-        user3.addItems(item6);
-        user3.addItems(item7);
-        user3.addItems(item8);
-        users.save(user3);
-        category3.addItems(item6);
-        category4.addItems(item7);
-        category4.addItems(item8);
-        categories.save(category3);
-        categories.save(category4);
+        category1 = categories.saveAndFlush(category1);
+        category2 = categories.saveAndFlush(category2);
+        log.warn(category1.toString());
+        user1.addCategory(categories.findById(category1.getCid()));
+        user1.addCategory(categories.findById(category2.getCid()));
+        users.saveAndFlush(user1);
+        log.warn(user1.toString());
+//        categories.save(category2);
+//        user1.addCategory(category1);
+//        user1.addCategory(category2);
+//        user1.addItems();
+//        user1.addItems(item2);
+//        user1.addItems(item3);
+//        users.save(user1);
+//
+//        //User2 Item and Category adding process
+//        user2.addCategory(category1);
+//        user2.addCategory(category2);
+//        user2.addCategory(category3);
+//        user2.addItems(item9);
+//        user2.addItems(item4);
+//        user2.addItems(item5);
+//        users.save(user2);
+//        category1.addItems(item9);
+//        category2.addItems(item4);
+//        category3.addItems(item5);
+//        categories.save(category1);
+//        categories.save(category2);
+//        categories.save(category3);
+//
+//        //User3 Item and Category adding process
+//        user3.addCategory(category3);
+//        user3.addCategory(category4);
+//        user3.addItems(item6);
+//        user3.addItems(item7);
+//        user3.addItems(item8);
+//        users.save(user3);
+//        category3.addItems(item6);
+//        category4.addItems(item7);
+//        category4.addItems(item8);
+//        categories.save(category3);
+//        categories.save(category4);
 
    }
 }
