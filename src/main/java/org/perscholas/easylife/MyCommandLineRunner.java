@@ -12,6 +12,7 @@ import org.perscholas.easylife.models.AuthGroup;
 import org.perscholas.easylife.models.Categories;
 import org.perscholas.easylife.models.Items;
 import org.perscholas.easylife.models.Users;
+import org.perscholas.easylife.services.ItemsServices;
 import org.perscholas.easylife.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -27,13 +28,15 @@ public class MyCommandLineRunner implements CommandLineRunner {
     UserServices userServices;
     AuthGroupRepoI authGroupRepoI;
 
-    @Autowired
-    public MyCommandLineRunner(ItemsRepoI items, UsersRepoI users, CategoriesRepoI categories, UserServices userServices, AuthGroupRepoI authGroupRepoI) {
-        this.itemsRepoI = items;
-        this.usersRepoI = users;
-        this.categoriesRepoI = categories;
+    ItemsServices itemsServices;
+
+    public MyCommandLineRunner(ItemsRepoI itemsRepoI, UsersRepoI usersRepoI, CategoriesRepoI categoriesRepoI, UserServices userServices, AuthGroupRepoI authGroupRepoI, ItemsServices itemsServices) {
+        this.itemsRepoI = itemsRepoI;
+        this.usersRepoI = usersRepoI;
+        this.categoriesRepoI = categoriesRepoI;
         this.userServices = userServices;
         this.authGroupRepoI = authGroupRepoI;
+        this.itemsServices = itemsServices;
     }
 
     @PostConstruct
@@ -98,6 +101,16 @@ public class MyCommandLineRunner implements CommandLineRunner {
         userServices.addCategoriesToUser(user2);
         userServices.addCategoriesToUser(user3);
         userServices.addCategoriesToUser(user4);
+
+        itemsServices.addUserAndCategorytoItem(user1,category1,item1);
+        itemsServices.addUserAndCategorytoItem(user2,category1,item2);
+        itemsServices.addUserAndCategorytoItem(user2,category2,item3);
+        itemsServices.addUserAndCategorytoItem(user3,category2,item4);
+        itemsServices.addUserAndCategorytoItem(user2,category3,item5);
+        itemsServices.addUserAndCategorytoItem(user3,category3,item6);
+        itemsServices.addUserAndCategorytoItem(user1,category4,item7);
+        itemsServices.addUserAndCategorytoItem(user3,category4,item8);
+        itemsServices.addUserAndCategorytoItem(user2,category1,item9);
    }
 }
 

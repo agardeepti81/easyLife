@@ -27,19 +27,23 @@
             </div>
         </div>
         <div  id="itemInputForm" class="col-8 text-center mt-4 custom-margins">
-            <p></p>
-            <form id="form" method="post" th:action="@{/additem/}+${userId}" th:object="${newItem}">
+            <form id="form" method="post" th:action="@{/action/additem/}+${userId}" th:object="${newItem}">
                 <input id="itemName" name="itemName" type="text">
                 <input id="quantity" name="quantity"type="number" min="0" max="100">
                 <select id="measuringUnit" name="measuringUnit">
                     <option>lbs</option>
                     <option>oz</option>
+                    <option>liter</option>
+                    <option>gallon</option>
                     <option>unit</option>
                     <option>cans</option>
                     <option>pkt</option>
+                    <option>box</option>
                 </select>
                 <button type="submit">Submit</button>
+                <p th:text="${msg}"></p>
             </form>
+         
         </div>
     </div>
     
