@@ -54,7 +54,7 @@ public class ItemsServices {
             if(categoriesRepoI.findById(cid) != null){
                 Users user = usersRepoI.findById(uid).get();
                 Categories categories = categoriesRepoI.findById(cid);
-                result = (List<Items>) itemsRepoI.findAllItemsByUserAndCategory(user,categories);
+                result = (List<Items>) itemsRepoI.findByUserAndCategory(user,categories);
                 return result;
             }
         }else {

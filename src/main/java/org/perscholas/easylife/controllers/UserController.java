@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.perscholas.easylife.dao.CategoriesRepoI;
 import org.perscholas.easylife.dao.ItemsRepoI;
 import org.perscholas.easylife.dao.UsersRepoI;
@@ -64,11 +65,13 @@ public class UserController {
         model.addAttribute("name",usersRepoI.findById(id).get().getName());
         model.addAttribute("userId",id);
         model.addAttribute("category",usersRepoI.findById(id).get().getCategories());
-//        List<Items> test = itemsRepoI.findAllByUserAndCategory(usersRepoI.findById(2).get(),categoriesRepoI.findById(1));
-//        for (int i = 0; i <test.size() ; i++) {
-//            log.warn(test.get(i).toString());
-//        }
-        log.warn(itemsRepoI.findAllItemsByUserAndCategory(usersRepoI.findById(2).get(),categoriesRepoI.findById(1)).toString());
+
+        List<Items> test = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(2).get(),categoriesRepoI.findById(3)));
+        for (int i = 0; i <test.size() ; i++) {
+            log.warn(test.get(i).getItemName());
+            log.warn(test.get(i).getMeasuringUnit());
+            log.warn(String.valueOf(test.get(i).getQuantity()));
+        }
         return "viewItems";
     }
 
