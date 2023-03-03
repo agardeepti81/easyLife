@@ -102,13 +102,13 @@ public class MyCommandLineRunner implements CommandLineRunner {
         userServices.addCategoriesToUser(user3);
         userServices.addCategoriesToUser(user4);
 
-        itemsServices.addUserAndCategorytoItem(user1,category1,item1);
-        itemsServices.addUserAndCategorytoItem(user2,category1,item2);
+        itemsServices.addUserAndCategorytoItem(user2,category1,item1);
+        itemsServices.addUserAndCategorytoItem(user3,category1,item2);
         itemsServices.addUserAndCategorytoItem(user2,category2,item3);
         itemsServices.addUserAndCategorytoItem(user3,category2,item4);
         itemsServices.addUserAndCategorytoItem(user2,category3,item5);
         itemsServices.addUserAndCategorytoItem(user3,category3,item6);
-        itemsServices.addUserAndCategorytoItem(user1,category4,item7);
+        itemsServices.addUserAndCategorytoItem(user4,category4,item7);
         itemsServices.addUserAndCategorytoItem(user3,category4,item8);
         itemsServices.addUserAndCategorytoItem(user2,category1,item9);
    }

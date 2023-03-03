@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -43,4 +46,21 @@ public class ItemsServices {
             throw new Exception();
         }
     }
+
+    @Transactional(rollbackFor = {Exception.class})
+    public List<Items> getAllItemsByUserAndCategory(int uid, int cid) throws Exception {
+        List<Items> result = new ArrayList<>();
+        if(usersRepoI.findById(uid).isPresent()) {
+            if(categoriesRepoI.findById(cid) != null){
+                Users user = usersRepoI.findById(uid).get();
+                Categories categories = categoriesRepoI.findById(cid);
+                result = (List<Items>) itemsRepoI.findAllItemsByUserAndCategory(user,categories);
+                return result;
+            }
+        }else {
+            throw new Exception("User not available");
+        }
+        return null;
+    }
+
 }

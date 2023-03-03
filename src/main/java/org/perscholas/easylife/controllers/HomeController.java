@@ -68,4 +68,10 @@ public class HomeController {
         userServices.addCategoriesToUser(newUser);
         return "index";
     }
+
+    @GetMapping("/error")
+    public String errorPage(){
+        return "error";
+    }
+
 }
