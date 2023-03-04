@@ -19,33 +19,45 @@
     </header>
 
     <div class="row mt-4 pb-3 text-center">
-        <div class="col-3 text-center bg-warning custom-margins">
+        <div id="categoryList" class="col-3 text-center bg-warning custom-margins " >
+            <div class="mt-3 mb-3" th:each="cat: ${category}">
+            <div class="card text-center bg-black fw-bold ms-lg-4 me-lg-4">
+                <div class="card-body">
+                    <h5 th:id= ${cat.cid} class="card-text text-white" th:text="${cat.categoryName}" onclick="showInputForm(this.id)"></h5>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- <div class="col-3 text-center bg-warning custom-margins">
             <div id="buttons" th:each="cat: ${category}" class="mt-3 mb-3">
                 <button th:id= ${cat.cid} type="button" class="btn btn-dark text-white"
                 onclick=showInputForm(this.id) th:text="${cat.categoryName}"></button>
                 <br>
             </div>
-        </div>
+        </div> -->
         <div  id="itemInputForm" class="col-8 text-center mt-4 pt-4 custom-margins">
             <div id="CategoryTitle" class="text-center bg-warning custom-margins fw-bold"></div>
             <form id="form" method="post" th:action="@{/action/additem/}+${userId}" th:object="${newItem}">
                 <input id="itemName" name="itemName" type="text">
                 <input id="quantity" name="quantity"type="number" min="0" max="100">
                 <select id="measuringUnit" name="measuringUnit">
-                    <option>lbs</option>
-                    <option>oz</option>
-                    <option>liter</option>
-                    <option>gallon</option>
-                    <option>unit</option>
-                    <option>cans</option>
-                    <option>pkt</option>
                     <option>box</option>
+                    <option>cans</option>
+                    <option>count</option>
+                    <option>gallon</option>
+                    <option>lbs</option>
+                    <option>liter</option>
+                    <option>oz</option>
+                    <option>pkt</option>
+                    <option>quart</option>
+                    <option>unit</option>
+
                 </select>
                 <button type="submit">Submit</button>
             </form>
         </div>
     </div>
-    <div class="row text-center bg-warning mb-3" >
+    <div class="row text-center bg-warning mb-3">
         <div class="col-3"></div>
         <div class="col-6 mt-3">
             <table class="table table-hover table-dark table-striped table-sm ">
@@ -63,19 +75,29 @@
         </div>
         <div class="col3"></div>
     </div>
+    <div class="row m-auto text-center">
+        <div class="col-5"></div>
+        <div class="col-2 card text-center bg-warning">
+            <div class="card-body">
+                <h5 class="card-text" onclick="goback()">Go Back</h5>
+            </div>
+        </div>    
+        <div class="col-5"></div>
+    </div> 
 </div>
 
-<script>
+<script th:src="@{/javascript/script.js}">
 
-function showInputForm(id, categoryName){
-    document.getElementById("itemInputForm").style.display = 'inline';
-    let button = document.getElementById(id);
-    button.setAttribute("class","btn btn-success text-white");
-    let form= document.getElementById("form");
-    path = form.getAttribute("action");
-    path += "/"+id;
-    form.setAttribute("action",path);
-}
+// function showInputForm(id){
+//     let button = document.getElementById(id);
+//     document.getElementById("itemInputForm").style.display = 'inline';
+//     button.setAttribute("class","bg-success text-white");
+//     let form= document.getElementById("form");
+//     path = form.getAttribute("action");
+//     path += "/"+id;
+//     form.setAttribute("action",path);
+// }
+
 
 </script>
 </body>

@@ -1,11 +1,8 @@
 package org.perscholas.easylife.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.perscholas.easylife.dao.CategoriesRepoI;
 import org.perscholas.easylife.dao.ItemsRepoI;
 import org.perscholas.easylife.dao.UsersRepoI;
@@ -15,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -61,18 +59,28 @@ public class UserController {
     }
 
     @GetMapping("/view/{userId}")
-    public String viewAllItems(@PathVariable(name = "userId") int id, Model model) throws Exception {
+    public String viewItems(@PathVariable(name = "userId") int id, Model model) throws Exception {
         model.addAttribute("name",usersRepoI.findById(id).get().getName());
         model.addAttribute("userId",id);
         model.addAttribute("category",usersRepoI.findById(id).get().getCategories());
+        return "viewItems";
+    }
 
-        List<Items> test = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(2).get(),categoriesRepoI.findById(3)));
+    @GetMapping("/view/{userId}/{cId}")
+    public ModelAndView viewItemsByCategory(@PathVariable(name = "userId") int uid, @PathVariable(name = "cId") int cid, Model model){
+        List<Items> test = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid)));
         for (int i = 0; i <test.size() ; i++) {
             log.warn(test.get(i).getItemName());
             log.warn(test.get(i).getMeasuringUnit());
             log.warn(String.valueOf(test.get(i).getQuantity()));
         }
-        return "viewItems";
+        model.addAttribute("name",usersRepoI.findById(uid).get().getName());
+        model.addAttribute("userId",uid);
+        model.addAttribute("category",usersRepoI.findById(uid).get().getCategories());
+        model.addAttribute("Items",test);
+        model.addAttribute("cName",categoriesRepoI.findById(cid).getCategoryName());
+        return new ModelAndView("viewItems");
     }
+
 
 }
