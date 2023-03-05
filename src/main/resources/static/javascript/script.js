@@ -32,6 +32,7 @@ function goback(){
     }
 }
 
+
 function showInputForm(id){
     let button = document.getElementById(id);
     document.getElementById("itemInputForm").style.display = 'inline';

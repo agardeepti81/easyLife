@@ -1,20 +1,19 @@
-package org.perscholas.easylife;
+package org.deeptiagarwal.easylife;
 
 import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.perscholas.easylife.dao.AuthGroupRepoI;
-import org.perscholas.easylife.dao.CategoriesRepoI;
-import org.perscholas.easylife.dao.ItemsRepoI;
-import org.perscholas.easylife.dao.UsersRepoI;
-import org.perscholas.easylife.models.AuthGroup;
-import org.perscholas.easylife.models.Categories;
-import org.perscholas.easylife.models.Items;
-import org.perscholas.easylife.models.Users;
-import org.perscholas.easylife.services.ItemsServices;
-import org.perscholas.easylife.services.UserServices;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.deeptiagarwal.easylife.dao.AuthGroupRepoI;
+import org.deeptiagarwal.easylife.services.UserServices;
+import org.deeptiagarwal.easylife.dao.CategoriesRepoI;
+import org.deeptiagarwal.easylife.dao.ItemsRepoI;
+import org.deeptiagarwal.easylife.dao.UsersRepoI;
+import org.deeptiagarwal.easylife.models.AuthGroup;
+import org.deeptiagarwal.easylife.models.Categories;
+import org.deeptiagarwal.easylife.models.Items;
+import org.deeptiagarwal.easylife.models.Users;
+import org.deeptiagarwal.easylife.services.ItemsServices;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

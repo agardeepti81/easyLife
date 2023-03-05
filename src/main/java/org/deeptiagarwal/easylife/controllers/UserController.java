@@ -1,13 +1,13 @@
-package org.perscholas.easylife.controllers;
+package org.deeptiagarwal.easylife.controllers;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.perscholas.easylife.dao.CategoriesRepoI;
-import org.perscholas.easylife.dao.ItemsRepoI;
-import org.perscholas.easylife.dao.UsersRepoI;
-import org.perscholas.easylife.models.Items;
-import org.perscholas.easylife.services.ItemsServices;
+import org.deeptiagarwal.easylife.dao.CategoriesRepoI;
+import org.deeptiagarwal.easylife.dao.ItemsRepoI;
+import org.deeptiagarwal.easylife.services.ItemsServices;
+import org.deeptiagarwal.easylife.dao.UsersRepoI;
+import org.deeptiagarwal.easylife.models.Items;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

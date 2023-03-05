@@ -1,4 +1,4 @@
-package org.perscholas.easylife.models;
+package org.deeptiagarwal.easylife.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

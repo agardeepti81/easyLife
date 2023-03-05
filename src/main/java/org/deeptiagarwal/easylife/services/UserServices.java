@@ -1,15 +1,14 @@
-package org.perscholas.easylife.services;
+package org.deeptiagarwal.easylife.services;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.perscholas.easylife.dao.CategoriesRepoI;
-import org.perscholas.easylife.dao.UsersRepoI;
-import org.perscholas.easylife.models.Users;
+import org.deeptiagarwal.easylife.dao.CategoriesRepoI;
+import org.deeptiagarwal.easylife.dao.UsersRepoI;
+import org.deeptiagarwal.easylife.models.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Service
 @Slf4j

@@ -1,10 +1,8 @@
-package org.perscholas.easylife.models;
+package org.deeptiagarwal.easylife.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.Hibernate;
 
 import java.util.*;
 

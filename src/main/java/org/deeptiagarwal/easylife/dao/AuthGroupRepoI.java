@@ -1,6 +1,6 @@
-package org.perscholas.easylife.dao;
+package org.deeptiagarwal.easylife.dao;
 
-import org.perscholas.easylife.models.AuthGroup;
+import org.deeptiagarwal.easylife.models.AuthGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

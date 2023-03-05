@@ -1,4 +1,4 @@
-package org.perscholas.easylife.controllers;
+package org.deeptiagarwal.easylife.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

@@ -1,4 +1,4 @@
-package org.perscholas.easylife;
+package org.deeptiagarwal.easylife;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

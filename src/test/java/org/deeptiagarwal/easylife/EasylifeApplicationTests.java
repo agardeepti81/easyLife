@@ -1,4 +1,4 @@
-package org.perscholas.easylife;
+package org.deeptiagarwal.easylife;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
