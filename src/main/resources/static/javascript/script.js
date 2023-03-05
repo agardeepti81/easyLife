@@ -35,6 +35,8 @@ function goback(){
 
 function showInputForm(id){
     let button = document.getElementById(id);
+    let categoryName = button.getAttribute("param");
+    document.getElementById("CategoryTitle").innerText = categoryName;
     document.getElementById("itemInputForm").style.display = 'inline';
     button.setAttribute("class","bg-success text-white");
     let form= document.getElementById("form");

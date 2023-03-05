@@ -1,3 +1,6 @@
+//Item Repository for creating Item beans when needed and storing the data in the database.
+//Custom queries to find Items by user and category, and find item by id
+
 package org.deeptiagarwal.easylife.dao;
 
 import org.deeptiagarwal.easylife.models.Categories;

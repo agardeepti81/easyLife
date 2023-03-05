@@ -23,7 +23,7 @@
             <div class="mt-3 mb-3" th:each="cat: ${category}">
             <div class="card text-center bg-black fw-bold ms-lg-4 me-lg-4">
                 <div class="card-body">
-                    <h5 th:id= ${cat.cid} class="card-text text-white" th:text="${cat.categoryName}" onclick="showInputForm(this.id)"></h5>
+                    <h5 th:id= ${cat.cid} class="card-text text-white" th:text="${cat.categoryName}" onclick="showInputForm(this.id)" th:param="${cat.categoryName}"></h5>
                 </div>
             </div>
             </div>
@@ -36,12 +36,22 @@
             </div>
         </div> -->
         
-        <div  id="itemInputForm" class="col-8 text-center mt-4 pt-4 custom-margins">
-            <div id="CategoryTitle" class="text-center bg-warning custom-margins fw-bold"></div>
-            <form id="form" method="post" th:action="@{/action/additem/}+${userId}" th:object="${newItem}">
-                <input id="itemName" name="itemName" type="text">
-                <input id="quantity" name="quantity"type="number" min="0" max="100">
-                <select id="measuringUnit" name="measuringUnit">
+        <div  id="itemInputForm" class="col-8 mt-4 pt-4 custom-margins">
+            <div id="CategoryTitle" class="text-center bg-warning fw-bold"></div>
+            <form id="form" method="post" th:action="@{/action/additem/}+${userId}" th:object="${newItem}">  
+            <p class="mt-3 mb-1 text-start fw-bold">Item Name</p>
+            <div class="form-outline w-75">     
+                <input id="itemName" name="itemName" type="text" placeholder="Item Name" minlength="3" maxlength="100" title="Item name cannot exceed 100 characters." class="form-control"required>
+                <label class="form-label" for="itemName"></label>
+            </div>
+            <p class="mb-1 text-start fw-bold">Quantity</p>
+            <div class="form-outline w-25">    
+                <input id="quantity" name="quantity"type="number" min="0" max="100" class="form-control">
+                <label class="form-label" for="quantity" ></label>
+            </div>
+            <p class="mb-1 text-start fw-bold">Unit</p>
+            <div class="form-outline w-25">    
+                <select id="measuringUnit" name="measuringUnit" class="form-control">
                     <option>box</option>
                     <option>cans</option>
                     <option>count</option>
@@ -52,10 +62,14 @@
                     <option>pkt</option>
                     <option>quart</option>
                     <option>unit</option>
-
-                </select>
-                <button type="submit">Submit</button>
+                </select> 
+                <label class="form-label" for="measuringUnit"></label>
+            </div>
+            <div class="form-outline w-25 align-items-center justify-content-center">
+                <button class="btn btn-dark btn-block" type="submit" >Add</button>
+            </div>
             </form>
+        </div>
         </div>
     </div>
     <div class="row text-center bg-warning mb-3">

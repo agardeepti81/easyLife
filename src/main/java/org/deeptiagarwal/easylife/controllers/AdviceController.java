@@ -1,3 +1,4 @@
+//AdviceController class for handling Exceptions
 package org.deeptiagarwal.easylife.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;

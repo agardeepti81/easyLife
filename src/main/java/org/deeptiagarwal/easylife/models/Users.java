@@ -1,3 +1,6 @@
+//This class serves the purpose of storing user information along with their categories and Items.
+// It also has helper methods to add categories and Items to the user
+
 package org.deeptiagarwal.easylife.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -5,15 +8,18 @@ import jakarta.persistence.*;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.*;
 
 @NoArgsConstructor
 @Slf4j
-//@RequiredArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -24,14 +30,18 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int uid;
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    int uid;
+
     @NonNull
+    @Size(min = 3, max = 25)
     String name;
+
     @NonNull
+    @Pattern(regexp = "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$")
+    @Email
     String email;
+
     @NonNull
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])([a-zA-Z0-9@$!%*?&]{8,})$")
     String password;
 
     public Users(@NonNull String name, @NonNull String email, @NonNull String password) {

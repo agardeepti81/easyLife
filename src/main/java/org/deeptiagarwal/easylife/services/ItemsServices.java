@@ -1,3 +1,4 @@
+//This is a service class to add user and category to Items
 package org.deeptiagarwal.easylife.services;
 
 import lombok.AccessLevel;
@@ -45,22 +46,6 @@ public class ItemsServices {
         }else{
             throw new Exception();
         }
-    }
-
-    @Transactional(rollbackFor = {Exception.class})
-    public List<Items> getAllItemsByUserAndCategory(int uid, int cid) throws Exception {
-        List<Items> result = new ArrayList<>();
-        if(usersRepoI.findById(uid).isPresent()) {
-            if(categoriesRepoI.findById(cid) != null){
-                Users user = usersRepoI.findById(uid).get();
-                Categories categories = categoriesRepoI.findById(cid);
-                result = (List<Items>) itemsRepoI.findByUserAndCategory(user,categories);
-                return result;
-            }
-        }else {
-            throw new Exception("User not available");
-        }
-        return null;
     }
 
 }

@@ -1,6 +1,10 @@
+//This class serves the purpose of storing Categories information.
+// It also has helper methods to add items to categories
+
 package org.deeptiagarwal.easylife.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -20,6 +24,7 @@ public class Categories {
     int cid;
 
     @NonNull
+    @Size(min = 4, max=30)
     String categoryName;
 
     @ToString.Exclude

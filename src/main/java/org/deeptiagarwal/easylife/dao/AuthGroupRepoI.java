@@ -1,3 +1,5 @@
+//AuthGroup Repository for creating AuthGroup beans when needed and storing the data in the database.
+
 package org.deeptiagarwal.easylife.dao;
 
 import org.deeptiagarwal.easylife.models.AuthGroup;

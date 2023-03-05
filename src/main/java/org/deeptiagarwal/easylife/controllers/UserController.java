@@ -1,3 +1,5 @@
+//Controller class for handling request mapping to add items, view items
+
 package org.deeptiagarwal.easylife.controllers;
 
 import lombok.AccessLevel;
@@ -46,7 +48,7 @@ public class UserController {
         model.addAttribute("userId",id);
         model.addAttribute("category",usersRepoI.findById(id).get().getCategories());
         model.addAttribute("msg",message);
-        return "addItems";
+        return "add_items";
     }
 
     @PostMapping("/additem/{uId}/{cId}")
@@ -63,23 +65,23 @@ public class UserController {
         model.addAttribute("name",usersRepoI.findById(id).get().getName());
         model.addAttribute("userId",id);
         model.addAttribute("category",usersRepoI.findById(id).get().getCategories());
-        return "viewItems";
+        return "view_items";
     }
 
     @GetMapping("/view/{userId}/{cId}")
     public ModelAndView viewItemsByCategory(@PathVariable(name = "userId") int uid, @PathVariable(name = "cId") int cid, Model model){
         List<Items> test = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid)));
-        for (int i = 0; i <test.size() ; i++) {
-            log.warn(test.get(i).getItemName());
-            log.warn(test.get(i).getMeasuringUnit());
-            log.warn(String.valueOf(test.get(i).getQuantity()));
-        }
+//        for (int i = 0; i <test.size() ; i++) {
+//            log.warn(test.get(i).getItemName());
+//            log.warn(test.get(i).getMeasuringUnit());
+//            log.warn(String.valueOf(test.get(i).getQuantity()));
+//        }
         model.addAttribute("name",usersRepoI.findById(uid).get().getName());
         model.addAttribute("userId",uid);
         model.addAttribute("category",usersRepoI.findById(uid).get().getCategories());
         model.addAttribute("Items",test);
         model.addAttribute("cName",categoriesRepoI.findById(cid).getCategoryName());
-        return new ModelAndView("viewItems");
+        return new ModelAndView("view_items");
     }
 
 

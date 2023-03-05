@@ -1,6 +1,10 @@
+//This class serves the purpose of storing user roles for Spring security.
+// Based on their reoles users can access different part of the application.
+
 package org.deeptiagarwal.easylife.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.Objects;

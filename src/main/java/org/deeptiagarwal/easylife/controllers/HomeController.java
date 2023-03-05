@@ -1,3 +1,5 @@
+//Controller class for handling request mapping to homepage, login, user registration and error
+
 package org.deeptiagarwal.easylife.controllers;
 
 import lombok.AccessLevel;

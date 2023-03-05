@@ -1,3 +1,4 @@
+//Main Application
 package org.deeptiagarwal.easylife;
 
 import org.springframework.boot.SpringApplication;

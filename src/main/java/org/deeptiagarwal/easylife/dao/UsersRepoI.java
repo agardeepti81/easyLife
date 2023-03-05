@@ -1,3 +1,6 @@
+//User Repository for creating User beans when needed and storing the data in the database.
+//Custom queries to find user by email and password, and find user by email
+
 package org.deeptiagarwal.easylife.dao;
 
 import org.deeptiagarwal.easylife.models.Users;
@@ -11,10 +14,4 @@ public interface UsersRepoI extends JpaRepository<Users,Integer> {
 
     Users findByEmail(String email);
 
-
-//    @Query("SELECT u FROM Users u WHERE u.email = :email and u.password = :password")
-//    Users findUserByEmailAndPassword(
-//            @Param("email") String email,
-//            @Param("password") String password);
-//    Optional<Users> findByEmailAndPassword(String email, String password);
 }

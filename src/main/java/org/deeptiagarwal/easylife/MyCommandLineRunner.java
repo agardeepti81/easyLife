@@ -1,3 +1,4 @@
+//Class to add dummy data in the database
 package org.deeptiagarwal.easylife;
 
 import jakarta.annotation.PostConstruct;

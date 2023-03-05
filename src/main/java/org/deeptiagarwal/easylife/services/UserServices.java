@@ -1,3 +1,4 @@
+//This is service class to add categories to user
 package org.deeptiagarwal.easylife.services;
 
 import lombok.AccessLevel;
