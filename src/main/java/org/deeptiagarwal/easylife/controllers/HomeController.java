@@ -66,6 +66,7 @@ public class HomeController {
         log.warn(newUser.toString());
         usersRepoI.save(newUser);
         userServices.addCategoriesToUser(newUser);
+        userServices.addRolesToUser(newUser);
         return "index";
     }
 

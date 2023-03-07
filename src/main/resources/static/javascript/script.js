@@ -1,8 +1,12 @@
+// Function to switch from login form to signup form
+
 function toggle(str1,str2){
     document.getElementById(str1).style.display = 'none';
     document.getElementById(str2).style.display = 'inline';
   }
   
+  // Function to check password matching while signing up
+
   var password = document.getElementById("password");
   var confirm_password = document.getElementById("confirmP");
   
@@ -17,6 +21,7 @@ function toggle(str1,str2){
   password.onchange = validatePassword;
   confirm_password.onkeyup = validatePassword;
 
+// Function to go back on the previous page
 
 function goback(){
     let num = history.length;
@@ -32,6 +37,7 @@ function goback(){
     }
 }
 
+// Function to show the add items form
 
 function showInputForm(id){
     let button = document.getElementById(id);

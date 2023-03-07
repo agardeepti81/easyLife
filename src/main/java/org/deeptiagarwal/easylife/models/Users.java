@@ -44,6 +44,7 @@ public class Users {
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])([a-zA-Z0-9@$!%*?&]{8,})$")
     String password;
 
+
     public Users(@NonNull String name, @NonNull String email, @NonNull String password) {
         this.name = name;
         this.email = email;
@@ -84,4 +85,5 @@ public class Users {
         items.add(i);
         i.addUser(this);
     }
+
 }

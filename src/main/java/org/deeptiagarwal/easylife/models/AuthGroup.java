@@ -4,8 +4,10 @@
 package org.deeptiagarwal.easylife.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Objects;
 
@@ -14,6 +16,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name="auth_group")
 public class AuthGroup {
     @Id @NonNull
@@ -21,6 +24,7 @@ public class AuthGroup {
     int id;
 
     @NonNull
+    @Email
     String email;
 
     @NonNull
@@ -42,4 +46,5 @@ public class AuthGroup {
     public int hashCode() {
         return Objects.hash(id, email, role);
     }
+
 }

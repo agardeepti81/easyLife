@@ -51,8 +51,8 @@ public class UserController {
         return "add_items";
     }
 
-    @PostMapping("/additem/{uId}/{cId}")
-    public RedirectView addItem(@PathVariable(name = "uId") int uid, @PathVariable(name = "cId") int cid, @ModelAttribute("newItem") Items newItem, RedirectAttributes attributes) throws Exception {
+    @PostMapping("/additem/{userId}/{cId}")
+    public RedirectView addItem(@PathVariable(name = "userId") int uid, @PathVariable(name = "cId") int cid, @ModelAttribute("newItem") Items newItem, RedirectAttributes attributes) throws Exception {
         itemsRepoI.save(newItem);
         itemsServices.addUserAndCategorytoItem(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid),newItem);
         attributes.addAttribute("userId",uid);
@@ -70,19 +70,40 @@ public class UserController {
 
     @GetMapping("/view/{userId}/{cId}")
     public ModelAndView viewItemsByCategory(@PathVariable(name = "userId") int uid, @PathVariable(name = "cId") int cid, Model model){
-        List<Items> test = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid)));
-//        for (int i = 0; i <test.size() ; i++) {
-//            log.warn(test.get(i).getItemName());
-//            log.warn(test.get(i).getMeasuringUnit());
-//            log.warn(String.valueOf(test.get(i).getQuantity()));
-//        }
+        List<Items> items = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid)));
         model.addAttribute("name",usersRepoI.findById(uid).get().getName());
         model.addAttribute("userId",uid);
         model.addAttribute("category",usersRepoI.findById(uid).get().getCategories());
-        model.addAttribute("Items",test);
+        model.addAttribute("Items",items);
         model.addAttribute("cName",categoriesRepoI.findById(cid).getCategoryName());
         return new ModelAndView("view_items");
     }
 
+    @GetMapping("/edit/{userId}")
+    public String editItems(@PathVariable(name = "userId") int id, Model model) throws Exception {
+        model.addAttribute("name",usersRepoI.findById(id).get().getName());
+        model.addAttribute("userId",id);
+        model.addAttribute("category",usersRepoI.findById(id).get().getCategories());
+        return "edit_items";
+    }
 
+    @GetMapping("/edit/{userId}/{cId}")
+    public ModelAndView editItemsByCategory(@PathVariable(name = "userId") int uid, @PathVariable(name = "cId") int cid, Model model){
+        List<Items> items = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid)));
+        model.addAttribute("name",usersRepoI.findById(uid).get().getName());
+        model.addAttribute("userId",uid);
+        model.addAttribute("category",usersRepoI.findById(uid).get().getCategories());
+        model.addAttribute("Items",items);
+        model.addAttribute("cId",cid);
+        model.addAttribute("cName",categoriesRepoI.findById(cid).getCategoryName());
+        return new ModelAndView("edit_items");
+    }
+
+    @PostMapping("/edititem/{itemId}")
+    public RedirectView editItems(@PathVariable(name = "itemId") int itemId, @ModelAttribute("editItem") Items editItem, RedirectAttributes attributes) throws Exception {
+        int userId = itemsRepoI.findById(itemId).getUser().getUid();
+        itemsServices.editItem(itemId,editItem);
+        attributes.addAttribute("userId", userId);
+        return new RedirectView("/action/edit/{userId}",true);
+    }
 }

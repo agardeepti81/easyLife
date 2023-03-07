@@ -48,4 +48,19 @@ public class ItemsServices {
         }
     }
 
+    @Transactional(rollbackFor = {Exception.class})
+    public void editItem(int itemId, Items editedItem) throws Exception {
+        if(itemsRepoI.findById(itemId) != null) {
+            Items item = itemsRepoI.findById(itemId);
+            item.setItemName(editedItem.getItemName());
+            item.setQuantity(editedItem.getQuantity());
+            item.setMeasuringUnit(editedItem.getMeasuringUnit());
+            itemsRepoI.save(item);
+        }else{
+            throw new Exception();
+        }
+    }
+
+
+
 }

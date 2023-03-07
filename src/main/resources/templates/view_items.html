@@ -14,7 +14,7 @@
         <div class="col-3"><img src="/images/easyLifeLogo.png" height="100px" ></div>
         <div class="col-8"></div>
         <div class="col-1 text-white d-flex align-items-center">
-            <h6 th:text="|Welcome, ${name}|"></h6>
+            <h6 th:text=${name}></h6>
         </div>
     </header>
 
@@ -34,7 +34,7 @@
             <div id="CategoryTitle" class="text-center bg-warning fw-bold" >
                 <h5 th:if="${cName}" th:text="${cName}"></h5>
             </div>
-            <table class="table table-hover table-dark table-striped table-sm ">
+            <table class="table table-hover table-striped table-sm ">
                 <thead>
                     <tr class="fw-bold">
                         <td>Item Name</td>
@@ -56,7 +56,7 @@
         <div class="col-5"></div>
         <div class="col-2 card text-center bg-warning">
             <div class="card-body">
-                <h5 class="card-text" onclick="goback()">Go Back</h5>
+                <h5 class="card-text" onclick=history.go(-1)>Go Back</h5>
             </div>
         </div>    
         <div class="col-5"></div>

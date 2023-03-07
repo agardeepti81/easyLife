@@ -4,8 +4,10 @@ package org.deeptiagarwal.easylife.services;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.deeptiagarwal.easylife.dao.AuthGroupRepoI;
 import org.deeptiagarwal.easylife.dao.CategoriesRepoI;
 import org.deeptiagarwal.easylife.dao.UsersRepoI;
+import org.deeptiagarwal.easylife.models.AuthGroup;
 import org.deeptiagarwal.easylife.models.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,10 +21,13 @@ public class UserServices {
     UsersRepoI usersRepoI;
     CategoriesRepoI categoriesRepoI;
 
+    AuthGroupRepoI authGroupRepoI;
+
     @Autowired
-    public UserServices(UsersRepoI usersRepoI, CategoriesRepoI categoriesRepoI) {
+    public UserServices(UsersRepoI usersRepoI, CategoriesRepoI categoriesRepoI, AuthGroupRepoI authGroupRepoI) {
         this.usersRepoI = usersRepoI;
         this.categoriesRepoI = categoriesRepoI;
+        this.authGroupRepoI = authGroupRepoI;
     }
 
     //Add categories to user
@@ -36,6 +41,18 @@ public class UserServices {
             user.addCategory(categoriesRepoI.findById(4));
             usersRepoI.save(user);
             log.warn("Initial categories added to user "+user.getName());
+        }else{
+            throw new Exception();
+        }
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    public void addRolesToUser(Users user) throws Exception {
+        if(usersRepoI.findById(user.getUid()).isPresent()){
+            user = usersRepoI.findById(user.getUid()).get();
+            AuthGroup authUser = new AuthGroup(user.getEmail(),"ROLE_USER");
+            authGroupRepoI.save(authUser);
+            log.debug("Initial Role added to user "+ authUser.getEmail()+authUser.getRole());
         }else{
             throw new Exception();
         }
