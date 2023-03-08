@@ -54,9 +54,9 @@ public class UserController {
     @PostMapping("/additem/{userId}/{cId}")
     public RedirectView addItem(@PathVariable(name = "userId") int uid, @PathVariable(name = "cId") int cid, @ModelAttribute("newItem") Items newItem, RedirectAttributes attributes) throws Exception {
         itemsRepoI.save(newItem);
-        itemsServices.addUserAndCategorytoItem(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid),newItem);
+        itemsServices.addUserAndCategorytoItem(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid).get(),newItem);
         attributes.addAttribute("userId",uid);
-        attributes.addAttribute("msg",newItem.getItemName()+" successfully added to "+categoriesRepoI.findById(cid).getCategoryName());
+        attributes.addAttribute("msg",newItem.getItemName()+" successfully added to "+categoriesRepoI.findById(cid).get().getCategoryName());
         return new RedirectView( "/action/add/{userId}",true);
     }
 
@@ -70,12 +70,23 @@ public class UserController {
 
     @GetMapping("/view/{userId}/{cId}")
     public ModelAndView viewItemsByCategory(@PathVariable(name = "userId") int uid, @PathVariable(name = "cId") int cid, Model model){
-        List<Items> items = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid)));
+        List<Items> items = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid).get()));
         model.addAttribute("name",usersRepoI.findById(uid).get().getName());
         model.addAttribute("userId",uid);
         model.addAttribute("category",usersRepoI.findById(uid).get().getCategories());
         model.addAttribute("Items",items);
-        model.addAttribute("cName",categoriesRepoI.findById(cid).getCategoryName());
+        model.addAttribute("cName",categoriesRepoI.findById(cid).get().getCategoryName());
+        return new ModelAndView("view_items");
+    }
+
+    @GetMapping("/viewAll/{userId}")
+    public ModelAndView viewAllItemsForUser(@PathVariable(name = "userId") int uid, Model model){
+        List<Items> items = (itemsRepoI.findByUser(usersRepoI.findById(uid).get()));
+        model.addAttribute("name",usersRepoI.findById(uid).get().getName());
+        model.addAttribute("userId",uid);
+        model.addAttribute("category",usersRepoI.findById(uid).get().getCategories());
+        model.addAttribute("Items",items);
+
         return new ModelAndView("view_items");
     }
 
@@ -89,19 +100,19 @@ public class UserController {
 
     @GetMapping("/edit/{userId}/{cId}")
     public ModelAndView editItemsByCategory(@PathVariable(name = "userId") int uid, @PathVariable(name = "cId") int cid, Model model){
-        List<Items> items = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid)));
+        List<Items> items = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid).get()));
         model.addAttribute("name",usersRepoI.findById(uid).get().getName());
         model.addAttribute("userId",uid);
         model.addAttribute("category",usersRepoI.findById(uid).get().getCategories());
         model.addAttribute("Items",items);
         model.addAttribute("cId",cid);
-        model.addAttribute("cName",categoriesRepoI.findById(cid).getCategoryName());
+        model.addAttribute("cName",categoriesRepoI.findById(cid).get().getCategoryName());
         return new ModelAndView("edit_items");
     }
 
     @PostMapping("/edititem/{itemId}")
     public RedirectView editItems(@PathVariable(name = "itemId") int itemId, @ModelAttribute("editItem") Items editItem, RedirectAttributes attributes) throws Exception {
-        int userId = itemsRepoI.findById(itemId).getUser().getUid();
+        int userId = itemsRepoI.findById(itemId).get().getUser().getUid();
         itemsServices.editItem(itemId,editItem);
         attributes.addAttribute("userId", userId);
         log.warn("Item Edited");
@@ -110,7 +121,7 @@ public class UserController {
 
     @GetMapping("/delete/{itemId}")
     public RedirectView deleteItems(@PathVariable(name = "itemId") int itemId, RedirectAttributes attributes) throws Exception {
-        int userId = itemsRepoI.findById(itemId).getUser().getUid();
+        int userId = itemsRepoI.findById(itemId).get().getUser().getUid();
         itemsServices.deleteItem(userId,itemId);
         log.warn("Item Deleted");
         attributes.addAttribute("userId", userId);

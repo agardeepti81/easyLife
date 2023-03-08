@@ -55,13 +55,20 @@ public class AdminController {
         model.addAttribute("categories",allCategories);
         model.addAttribute("items",allItems);
         model.addAttribute("userId",userId);
-//        log.warn(allUsers.get(1).getItems().toString());
         return "admin";
     }
 
     @PostMapping("/newAuthGroup/{userId}")
     public RedirectView addNewAuthGroup(@ModelAttribute("authGroup") AuthGroup newAuthGroup, @PathVariable(name="userId") int userId, RedirectAttributes attributes){
         authGroupRepoI.save(newAuthGroup);
+        attributes.addAttribute("userId",userId);
+        return new RedirectView("/admin/{userId}",true);
+    }
+
+    @PostMapping("/newCategory/{userId}")
+    public RedirectView addNewCategory(@RequestParam("Category") String category, @PathVariable(name="userId") int userId, RedirectAttributes attributes){
+        Categories newCategory = new Categories(category);
+        categoriesRepoI.save(newCategory);
         attributes.addAttribute("userId",userId);
         return new RedirectView("/admin/{userId}",true);
     }

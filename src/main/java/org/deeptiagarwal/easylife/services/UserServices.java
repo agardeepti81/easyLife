@@ -35,10 +35,10 @@ public class UserServices {
     public void addCategoriesToUser(Users user) throws Exception {
         if(usersRepoI.findById(user.getUid()).isPresent()){
             user = usersRepoI.findById(user.getUid()).get();
-            user.addCategory(categoriesRepoI.findById(1));
-            user.addCategory(categoriesRepoI.findById(2));
-            user.addCategory(categoriesRepoI.findById(3));
-            user.addCategory(categoriesRepoI.findById(4));
+            user.addCategory(categoriesRepoI.findById(1).get());
+            user.addCategory(categoriesRepoI.findById(2).get());
+            user.addCategory(categoriesRepoI.findById(3).get());
+            user.addCategory(categoriesRepoI.findById(4).get());
             usersRepoI.save(user);
             log.warn("Initial categories added to user "+user.getName());
         }else{

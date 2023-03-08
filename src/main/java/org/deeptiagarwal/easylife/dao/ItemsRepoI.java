@@ -13,8 +13,9 @@ import java.util.List;
 
 @Repository
 public interface ItemsRepoI extends JpaRepository<Items,Integer> {
-   <Optional> Items findById(int id);
 
   <Optional> List<Items> findByUserAndCategory(Users u, Categories c);
+
+  <Optional> List<Items> findByUser(Users u);
 
 }

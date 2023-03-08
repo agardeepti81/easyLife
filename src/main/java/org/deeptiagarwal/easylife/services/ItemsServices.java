@@ -52,7 +52,7 @@ public class ItemsServices {
     @Transactional(rollbackFor = {Exception.class})
     public void editItem(int itemId, Items editedItem) throws Exception {
         if(itemsRepoI.findById(itemId) != null) {
-            Items item = itemsRepoI.findById(itemId);
+            Items item = itemsRepoI.findById(itemId).get();
             item.setItemName(editedItem.getItemName());
             item.setQuantity(editedItem.getQuantity());
             item.setMeasuringUnit(editedItem.getMeasuringUnit());
@@ -66,14 +66,14 @@ public class ItemsServices {
     @Transactional(rollbackFor = {Exception.class})
     public void deleteItem(int userId, int itemId) throws Exception {
         if(itemsRepoI.findById(itemId) != null) {
-            Items item = itemsRepoI.findById(itemId);
+            Items item = itemsRepoI.findById(itemId).get();
             int cId = item.getCategory().getCid();
 
             Users user = usersRepoI.findById(userId).get();
             user.deleteItems(item);
             usersRepoI.save(user);
 
-            Categories category = categoriesRepoI.findById(cId);
+            Categories category = categoriesRepoI.findById(cId).get();
             category.deleteItems(item);
             categoriesRepoI.save(category);
 

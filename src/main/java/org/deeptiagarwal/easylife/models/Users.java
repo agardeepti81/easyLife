@@ -50,6 +50,7 @@ public class Users {
         this.password = password;
     }
 
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "users_categories",
             joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "uid"),
@@ -58,7 +59,7 @@ public class Users {
     List<Categories> categories = new LinkedList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Items> items = new LinkedList<>();
+    Set<Items> items = new LinkedHashSet<>();
 
 
     @Override

@@ -10,9 +10,31 @@
 </head>
 <body>
 <div class="container-fluid mt-1">
-    <div th:replace="~{fragments/fragment.html :: header}"></div>
-
-    <div class="row mt-4 pb-3 text-center">
+    <header class="row bg-dark">
+        <div class="col-3"><img src="/images/easyLifeLogo.png" height="100px" ></div>
+        <div class="col-7"></div>
+        <div class="col-2 text-white d-flex align-items-center">
+            <div class="dropdown">
+                <button class="btn btn-warning dropdown-toggle" type="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+                th:text="${name}">
+                    Dropdown button
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="userMenu">
+                  <a class="dropdown-item" th:href="@{/admin/}+${userId}">Admin Page</a>
+                  <a class="dropdown-item" th:href="@{/action/edit/}+${userId}">Update</a>
+                  <a class="dropdown-item" th:href="@{/action/view/}+${userId}">View</a>
+                  <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                </div>
+            </div>
+            
+        </div>
+    </header>
+    <div class="row  mt-4">
+        <div class="col-3"></div>
+        <div class="col-6 bg-warning fw-bold text-center pb-1 pt-1"><h4>Add Items</h4></div>
+        <div class="col-3"></div>
+    </div>
+    <div class="row mt-2 pb-3 text-center">
         <div class="col-3 text-center bg-warning custom-margins " >
             <div class="mt-3 mb-3" th:each="cat: ${category}">
             <div class="card text-center bg-black fw-bold ms-lg-4 me-lg-4">
@@ -59,7 +81,6 @@
                 <button class="btn btn-dark btn-block" type="submit" >Add</button>
             </div>
             </form>
-        </div>
         </div>
     </div>
     <div class="row text-center bg-warning mb-3">

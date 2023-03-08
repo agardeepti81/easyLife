@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CategoriesRepoI extends JpaRepository<Categories,Integer> {
-    Categories findById(int id);
 }

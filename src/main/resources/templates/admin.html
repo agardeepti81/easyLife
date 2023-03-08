@@ -12,9 +12,21 @@
 <div class="container-fluid mt-1">
     <header class="row bg-dark">
         <div class="col-3"><img src="/images/easyLifeLogo.png" height="100px" ></div>
-        <div class="col-8"></div>
-        <div class="col-1 text-white d-flex align-items-center">
-            <h6 th:text=${name}></h6>
+        <div class="col-7"></div>
+        <div class="col-2 text-white d-flex align-items-center">
+            <div class="dropdown">
+                <button class="btn btn-warning dropdown-toggle" type="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+                th:text="${name}">
+                    Dropdown button
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="userMenu">
+                  <a class="dropdown-item" th:href="@{/action/add/}+${userId}">Add</a>
+                  <a class="dropdown-item" th:href="@{/action/edit/}+${userId}">Update</a>
+                  <a class="dropdown-item" th:href="@{/action/view/}+${userId}">View</a>
+                  <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                </div>
+            </div>
+            
         </div>
     </header>
 
@@ -87,7 +99,7 @@
                         <td th:text="${user.name}"></td>
                         <td th:text="${user.email}"></td>
                         <td>
-                            <span th:each="category: ${user.categories}">
+                            <span th:if=${user.categories} th:each="category: ${user.categories}">
                               <span th:text="${category.categoryName}" class="mx-1"></span>
                               <hr />
                             </span>
@@ -155,7 +167,7 @@
         </div>
 
         <div  id="viewAllCategories" >
-            <div id="allCategories" class="text-center bg-warning fw-bold" >
+            <div id="allCategories" class="text-center bg-warning fw-bold mt-2" >
                 <h5>Categories</h5>
             </div>
             <table class="table table-hover table-striped table-sm ">
@@ -172,10 +184,37 @@
                     </tr>
                 </tbody>
             </table>    
+
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#addCategory">Add</button>
+
+            <div class="modal fade" id="addCategory" tabindex="-1" role="dialog" aria-labelledby="newCategory" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newCategory">New Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="newCategory" method="post" th:action="@{/admin/newCategory/}+${userId}">
+                    <p class="mb-1 text-start fw-bold">Category Name</p>
+                    <div class="form-outline w-75">
+                        <label for="newCategory" class="form-label"></label>
+                        <input type="text" class="form-control" id="newCategory" name="Category" 
+                        pattern="^[a-zA-Z ]+" minlength="4" maxlength="30">
+                    </div>
+                    <button type="submit" class="btn btn-warning mt-2">Save</button>
+                    <button type="button" class="btn btn-secondary mt-2" data-dismiss="modal">Close</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+            </div>
         </div>
 
         <div  id="viewAllItems">
-            <div id="allItems" class="text-center bg-warning fw-bold" >
+            <div id="allItems" class="text-center bg-warning fw-bold mt-2" >
                 <h5>Items</h5>
             </div>
             <table class="table table-hover table-striped table-sm ">
@@ -185,8 +224,8 @@
                         <td>Item Name</td>
                         <td>Quantity</td>
                         <td>Measuring Unit</td>
-                        <!-- <td>User Id</td>
-                        <td>Category Id</td> -->
+                        <td>User Id</td>
+                        <td>Category Id</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -195,13 +234,14 @@
                         <td th:text="${item.itemName}"></td>
                         <td th:text="${item.quantity}"></td>
                         <td th:text="${item.measuringUnit}"></td>
-                        <!-- <td th:if="${item.user.uid}" th:text="${item.user.uid}"></td>
-                        <td th:if="${item.category.cid}" th:text="${item.category.cid}"></td> -->
+                        <td th:if="${item.user.uid}" th:text="${item.user.uid}"></td>
+                        <td th:if="${item.category.cid}" th:text="${item.category.cid}"></td>
                     </tr>
                 </tbody>
-            </table>    
+            </table>   
+            
         </div>
-    </div>
+        </div>
     </div>
 
     <div class="row m-auto text-center">
