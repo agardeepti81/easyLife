@@ -104,6 +104,17 @@ public class UserController {
         int userId = itemsRepoI.findById(itemId).getUser().getUid();
         itemsServices.editItem(itemId,editItem);
         attributes.addAttribute("userId", userId);
+        log.warn("Item Edited");
         return new RedirectView("/action/edit/{userId}",true);
     }
+
+    @GetMapping("/delete/{itemId}")
+    public RedirectView deleteItems(@PathVariable(name = "itemId") int itemId, RedirectAttributes attributes) throws Exception {
+        int userId = itemsRepoI.findById(itemId).getUser().getUid();
+        itemsServices.deleteItem(userId,itemId);
+        log.warn("Item Deleted");
+        attributes.addAttribute("userId", userId);
+        return new RedirectView("/action/edit/{userId}",true);
+    }
+
 }

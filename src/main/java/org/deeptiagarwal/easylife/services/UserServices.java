@@ -42,7 +42,7 @@ public class UserServices {
             usersRepoI.save(user);
             log.warn("Initial categories added to user "+user.getName());
         }else{
-            throw new Exception();
+            throw new Exception("Initial Categories cannot be added to "+user.getName());
         }
     }
 
@@ -54,7 +54,7 @@ public class UserServices {
             authGroupRepoI.save(authUser);
             log.debug("Initial Role added to user "+ authUser.getEmail()+authUser.getRole());
         }else{
-            throw new Exception();
+            throw new Exception("Role_USER can't be added to "+user.getName());
         }
     }
 

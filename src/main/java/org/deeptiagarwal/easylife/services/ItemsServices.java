@@ -11,6 +11,7 @@ import org.deeptiagarwal.easylife.models.Categories;
 import org.deeptiagarwal.easylife.models.Items;
 import org.deeptiagarwal.easylife.models.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +45,7 @@ public class ItemsServices {
             categoriesRepoI.save(category);
             log.warn("Category and User added to item.");
         }else{
-            throw new Exception();
+            throw new Exception("Adding category and user to Item Failed");
         }
     }
 
@@ -55,12 +56,32 @@ public class ItemsServices {
             item.setItemName(editedItem.getItemName());
             item.setQuantity(editedItem.getQuantity());
             item.setMeasuringUnit(editedItem.getMeasuringUnit());
-            itemsRepoI.save(item);
+            itemsRepoI.saveAndFlush(item);
+            log.debug("Item Edited Successfully");
         }else{
-            throw new Exception();
+            throw new Exception("Editing the item failed!!");
         }
     }
 
+    @Transactional(rollbackFor = {Exception.class})
+    public void deleteItem(int userId, int itemId) throws Exception {
+        if(itemsRepoI.findById(itemId) != null) {
+            Items item = itemsRepoI.findById(itemId);
+            int cId = item.getCategory().getCid();
+
+            Users user = usersRepoI.findById(userId).get();
+            user.deleteItems(item);
+            usersRepoI.save(user);
+
+            Categories category = categoriesRepoI.findById(cId);
+            category.deleteItems(item);
+            categoriesRepoI.save(category);
 
 
+            itemsRepoI.delete(item);
+            log.warn("Item Successfully deleted!!");
+        }else{
+            throw new Exception("Deleting item failed!!");
+        }
+    }
 }

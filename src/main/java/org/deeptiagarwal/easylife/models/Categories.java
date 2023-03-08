@@ -53,4 +53,10 @@ public class Categories {
         items.add(i);
         i.addCategory(this);
     }
+
+    public void deleteItems(Items i)
+    {
+        items.remove(i);
+        i.setCategory(null);
+    }
 }

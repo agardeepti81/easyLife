@@ -14,7 +14,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.*;
 
@@ -84,6 +83,12 @@ public class Users {
     {
         items.add(i);
         i.addUser(this);
+    }
+
+    public void deleteItems(Items i)
+    {
+        items.remove(i);
+        i.setUser(null);
     }
 
 }

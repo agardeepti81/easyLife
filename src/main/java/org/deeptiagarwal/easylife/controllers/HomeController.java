@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Slf4j
@@ -57,6 +58,7 @@ public class HomeController {
         }
         model.addAttribute("userName", existinguser.getName());
         model.addAttribute("userId",existinguser.getUid());
+        log.warn("User login successful!!");
         return "actions";
     }
 
@@ -67,6 +69,7 @@ public class HomeController {
         usersRepoI.save(newUser);
         userServices.addCategoriesToUser(newUser);
         userServices.addRolesToUser(newUser);
+        log.warn("New User Registration Done Successfully");
         return "index";
     }
 

@@ -58,11 +58,12 @@
                                 <button class="btn btn-warning" data-toggle="modal"
                                 th:attr="data-target=${'#editModal'+item.id}" data-row="${item}">Edit</button>
                             </td>
-                            <td><button type="button" class="btn btn-warning">Delete</button></td>
+                            <td><a th:href="@{/action/delete/{itemId} (itemId=${item.id})}" target="_parent"><button type="button" class="btn btn-warning" >Delete</button></a></td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="modal fade" th:each="item : ${Items}" th:attr="id=${'editModal' + item.id}" tabindex="-1"
+            </div>
+            <div class="modal fade" th:each="item : ${Items}" th:attr="id=${'editModal' + item.id}" tabindex="-1"
                     role="dialog" aria-labelledby="itemEditModal" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -123,7 +124,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
         <div class="row m-auto text-center">
             <div class="col-5"></div>
