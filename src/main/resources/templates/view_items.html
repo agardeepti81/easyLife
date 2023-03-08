@@ -10,13 +10,7 @@
 </head>
 <body>
 <div class="container-fluid mt-1">
-    <header class="row bg-dark">
-        <div class="col-3"><img src="/images/easyLifeLogo.png" height="100px" ></div>
-        <div class="col-8"></div>
-        <div class="col-1 text-white d-flex align-items-center">
-            <h6 th:text=${name}></h6>
-        </div>
-    </header>
+    <div th:replace="~{fragments/fragment.html :: header}"></div>
 
     <div class="row mt-4 pb-3 text-center">
         <div class="col-3 text-center bg-warning custom-margins " >
@@ -63,7 +57,7 @@
     </div> 
 </div>
 
-<script th:src="@{/javascript/script.js}">
+<div th:replace="~{fragments/fragment.html :: foot}"></div>
 
 </script>
 </body>

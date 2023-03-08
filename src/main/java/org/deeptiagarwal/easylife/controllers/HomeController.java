@@ -56,7 +56,7 @@ public class HomeController {
                 return "index";
             }
         }
-        model.addAttribute("userName", existinguser.getName());
+        model.addAttribute("name", existinguser.getName());
         model.addAttribute("userId",existinguser.getUid());
         log.warn("User login successful!!");
         return "actions";
@@ -76,6 +76,11 @@ public class HomeController {
     @GetMapping("/error")
     public String errorPage(){
         return "error";
+    }
+
+    @GetMapping("/logout")
+    public String logoutPage(){
+        return "logout";
     }
 
 }

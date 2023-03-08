@@ -35,3 +35,15 @@
 .myBtn{
   font-weight: bold;
 }
+#viewUsers{
+  display: none;
+}
+#viewAuthGroup{
+  display:none;
+}
+#viewAllCategories{
+  display:none;
+}
+#viewAllItems{
+  display: none;
+}

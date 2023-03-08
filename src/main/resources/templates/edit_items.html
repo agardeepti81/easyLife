@@ -13,13 +13,7 @@
 
 <body>
     <div class="container-fluid mt-1">
-        <header class="row bg-dark">
-            <div class="col-3"><img src="/images/easyLifeLogo.png" height="100px"></div>
-            <div class="col-8"></div>
-            <div class="col-1 text-white d-flex align-items-center">
-                <h6 th:text=${name}></h6>
-            </div>
-        </header>
+        <div th:replace="~{fragments/fragment.html :: header}"></div>
 
         <div class="row mt-4 pb-3 text-center">
             <div class="col-3 text-center bg-warning custom-margins ">
@@ -104,15 +98,18 @@
                                     <div class="form-outline w-25">
                                         <select id="measuringUnit" name="measuringUnit" class="form-control"
                                             th:placeholder="${item.measuringUnit}" th:value="${item.measuringUnit}">
+                                            <option>bottle</option>
                                             <option>box</option>
                                             <option>cans</option>
                                             <option>count</option>
                                             <option>gallon</option>
+                                            <option>jar</option>
                                             <option>lbs</option>
                                             <option>liter</option>
                                             <option>oz</option>
                                             <option>pkt</option>
                                             <option>quart</option>
+                                            <option>qty</option>
                                             <option>unit</option>
                                         </select>
                                         <label class="form-label" for="measuringUnit"></label>
@@ -137,11 +134,6 @@
     </div>
 
     <div th:replace="~{fragments/fragment.html :: foot}"></div>
-    <script>
-        function showEditForm() {
-            console.log(this);
-        }
-    </script>
 </body>
 
 </html>

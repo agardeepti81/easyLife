@@ -77,7 +77,6 @@ public class ItemsServices {
             category.deleteItems(item);
             categoriesRepoI.save(category);
 
-
             itemsRepoI.delete(item);
             log.warn("Item Successfully deleted!!");
         }else{

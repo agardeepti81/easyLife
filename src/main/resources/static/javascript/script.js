@@ -50,3 +50,38 @@ function showInputForm(id){
     path += "/"+id;
     form.setAttribute("action",path);
 }
+
+function showUserData(){
+  document.getElementById("viewUsers").style.display = 'inline';
+  document.getElementById("viewAuthGroup").style.display = 'none';
+  document.getElementById("viewAllCategories").style.display = 'none';
+  document.getElementById("viewAllItems").style.display = 'none';
+}
+
+function showAuthGroupUsers(){
+  document.getElementById("viewAuthGroup").style.display = 'inline';
+  document.getElementById("viewUsers").style.display = 'none';
+  document.getElementById("viewAllCategories").style.display = 'none';
+  document.getElementById("viewAllItems").style.display = 'none';
+}
+
+function showCategoryData(){
+  document.getElementById("viewAllCategories").style.display = 'inline';
+  document.getElementById("viewUsers").style.display = 'none';
+  document.getElementById("viewAuthGroup").style.display = 'none';
+  document.getElementById("viewAllItems").style.display = 'none';
+}
+
+function showItemData(){
+  document.getElementById("viewAllItems").style.display = 'inline';
+  document.getElementById("viewAllCategories").style.display = 'none';
+  document.getElementById("viewUsers").style.display = 'none';
+  document.getElementById("viewAuthGroup").style.display = 'none';
+}
+
+function showAll(){
+  document.getElementById("viewUsers").style.display = 'inline';
+  document.getElementById("viewAuthGroup").style.display = 'inline';
+  document.getElementById("viewAllCategories").style.display = 'inline';
+  document.getElementById("viewAllItems").style.display = 'inline';
+}

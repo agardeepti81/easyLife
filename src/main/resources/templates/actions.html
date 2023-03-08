@@ -10,13 +10,24 @@
 </head>
 <body>
 <div class="container-fluid mt-1">
-    <header class="row bg-dark">
+    <div th:replace="~{fragments/fragment.html :: header}"></div>
+    <!-- <header class="row bg-dark">
         <div class="col-3"><img src="/images/easyLifeLogo.png" height="100px" ></div>
-        <div class="col-8"></div>
-        <div class="col-1 text-white d-flex align-items-center">
-            <h6 th:text="|Welcome, ${userName}|"></h6>
+        <div class="col-7"></div>
+        <div class="col-2 text-white d-flex align-items-center">
+            <div class="dropdown">
+                <button class="btn btn-warning dropdown-toggle" type="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+                th:text="${userName}">
+                    Dropdown button
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="userMenu">
+                  <a class="dropdown-item" th:href="@{/admin/}+${userId}">Admin Page</a>
+                  <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                </div>
+            </div>
+            
         </div>
-    </header>
+    </header> -->
     <div class="row mt-4 mb-2 text-center">
     <div class="col-3"></div>
     <div class="col-6"><h4 class="myfont">Please choose from the below options</h4></div>
@@ -51,5 +62,7 @@
     <div class="col-1"></div>
     </section>
 </div>
+
+<div th:replace="~{fragments/fragment.html :: foot}"></div>
 </body>
 </html>

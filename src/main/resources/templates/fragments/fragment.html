@@ -43,3 +43,23 @@
 
   <script th:src="@{/javascript/script.js}"></script>
 </div>
+
+<div th:fragment="header">
+<header class="row bg-dark">
+  <div class="col-3"><img src="/images/easyLifeLogo.png" height="100px" ></div>
+  <div class="col-7"></div>
+  <div class="col-2 text-white d-flex align-items-center">
+      <div class="dropdown">
+          <button class="btn btn-warning dropdown-toggle" type="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+          th:text="${name}">
+              Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="userMenu">
+            <a class="dropdown-item" th:href="@{/admin/}+${userId}">Admin Page</a>
+            <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+          </div>
+      </div>
+      
+  </div>
+</header>
+</div>
