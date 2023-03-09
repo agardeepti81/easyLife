@@ -77,11 +77,25 @@ public class MyCommandLineRunner implements CommandLineRunner {
         Categories category2 = new Categories("Cleaning Supplies");
         Categories category3 = new Categories("Beauty");
         Categories category4 = new Categories("Patio and Garden");
+        Categories category5 = new Categories("Arts and Crafts");
+        Categories category6 = new Categories("Baby");
+        Categories category7 = new Categories("Medicines");
+        Categories category8 = new Categories("Movies and Books");
+        Categories category9 = new Categories("Pets");
+        Categories category10 = new Categories("School Supplies");
+        Categories category11 = new Categories("Sports and Outdoors");
 
         categoriesRepoI.save(category1);
         categoriesRepoI.save(category2);
         categoriesRepoI.save(category3);
         categoriesRepoI.save(category4);
+        categoriesRepoI.save(category5);
+        categoriesRepoI.save(category6);
+        categoriesRepoI.save(category7);
+        categoriesRepoI.save(category8);
+        categoriesRepoI.save(category9);
+        categoriesRepoI.save(category10);
+        categoriesRepoI.save(category11);
 
         Items item1 = new Items("Ritz Crackers",2,"pkt");
         Items item2 = new Items("Organic Milk 2%",2,"cans");
@@ -160,6 +174,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
         itemsRepoI.save(item35);
         itemsRepoI.save(item36);
 
+//        userServices.addCategoriesToUser(user1);
         userServices.addCategoriesToUser(user2);
         userServices.addCategoriesToUser(user3);
         userServices.addCategoriesToUser(user4);

@@ -34,7 +34,7 @@
         <div class="col-6 bg-warning fw-bold text-center pb-1 pt-1"><h4>Add Items</h4></div>
         <div class="col-3"></div>
     </div>
-    <div class="row mt-2 pb-3 text-center">
+    <div class="row mt-2 pb-2 text-center">
         <div class="col-3 text-center bg-warning custom-margins " >
             <div class="mt-3 mb-3" th:each="cat: ${category}">
             <div class="card text-center bg-black fw-bold ms-lg-4 me-lg-4">
@@ -83,6 +83,21 @@
             </form>
         </div>
     </div>
+
+    <div class="row pb-3 text-center">
+        <div class="col-3 text-center bg-warning custom-margins " >
+            <form id="form" method="post" th:action="@{/action/addCategory/}+${userId}" th:object="${addCategory}">  
+                <p class="mb-2 text-start fw-bold" th:if=${cList} >Category Name</p>
+                <select id="addCategoryName" name="addCategoryName" class="form-control mb-2 dropdown">
+                        <option th:each="cat: ${cList}" th:value=${cat.cid} th:text="${cat.categoryName}"></option>
+                </select> 
+                <div class="pb-2">
+                    <button class="btn btn-dark btn-block form-control w-50" type="submit">Add Category</button>
+                </div>
+            </form>
+        </div>
+    </div>    
+
     <div class="row text-center bg-warning mb-3">
         <div class="col-3"></div>
         <div class="col-6 mt-3">

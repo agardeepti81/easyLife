@@ -11,13 +11,11 @@ import org.springframework.web.servlet.view.RedirectView;
 @ControllerAdvice
 @Slf4j
 public class AdviceController {
-
     @ExceptionHandler({Exception.class})
     public ModelAndView exceptionHandle(Exception ex, Model model){
-        log.debug("There is some error");
         ex.printStackTrace();
+        log.debug(ex.getMessage());
         model.addAttribute("error",ex.getMessage());
         return new ModelAndView("error");
     }
-
 }

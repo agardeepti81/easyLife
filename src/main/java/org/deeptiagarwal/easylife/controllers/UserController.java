@@ -7,9 +7,11 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.deeptiagarwal.easylife.dao.CategoriesRepoI;
 import org.deeptiagarwal.easylife.dao.ItemsRepoI;
+import org.deeptiagarwal.easylife.models.Categories;
 import org.deeptiagarwal.easylife.services.ItemsServices;
 import org.deeptiagarwal.easylife.dao.UsersRepoI;
 import org.deeptiagarwal.easylife.models.Items;
+import org.deeptiagarwal.easylife.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,24 +31,29 @@ public class UserController {
     UsersRepoI usersRepoI;
 
     ItemsRepoI itemsRepoI;
+    UserServices userServices;
     ItemsServices itemsServices;
 
     List<String> message = new ArrayList<>();
 
     @Autowired
-    public UserController(CategoriesRepoI categoriesRepoI, UsersRepoI usersRepoI, ItemsRepoI itemsRepoI, ItemsServices itemsServices) {
+    public UserController(CategoriesRepoI categoriesRepoI, UsersRepoI usersRepoI, ItemsRepoI itemsRepoI, UserServices userServices, ItemsServices itemsServices, List<String> message) {
         this.categoriesRepoI = categoriesRepoI;
         this.usersRepoI = usersRepoI;
         this.itemsRepoI = itemsRepoI;
+        this.userServices = userServices;
         this.itemsServices = itemsServices;
+        this.message = message;
     }
 
     @GetMapping("/add/{userId}")
-    public String getUserWithID(@PathVariable(name = "userId") int id, Model model, @RequestParam(name = "msg",defaultValue = "") String msg){
+    public String getUserWithID(@PathVariable(name = "userId") int id, Model model, @RequestParam(name = "msg",defaultValue = "") String msg) throws Exception {
+        List<Categories> categoryList = userServices.getCategories(usersRepoI.findById(id).get());
         message.add(msg);
         model.addAttribute("name",usersRepoI.findById(id).get().getName());
         model.addAttribute("userId",id);
         model.addAttribute("category",usersRepoI.findById(id).get().getCategories());
+        model.addAttribute("cList",categoryList);
         model.addAttribute("msg",message);
         return "add_items";
     }
@@ -57,6 +64,13 @@ public class UserController {
         itemsServices.addUserAndCategorytoItem(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid).get(),newItem);
         attributes.addAttribute("userId",uid);
         attributes.addAttribute("msg",newItem.getItemName()+" successfully added to "+categoriesRepoI.findById(cid).get().getCategoryName());
+        return new RedirectView( "/action/add/{userId}",true);
+    }
+
+    @PostMapping("/addCategory/{userId}")
+    public RedirectView addCategoryToUser(@PathVariable(name = "userId") int uid, @RequestParam("addCategoryName") int cId, RedirectAttributes attributes) throws Exception {
+        log.warn(String.valueOf(cId));
+        userServices.addCategoryToUser(uid,cId);
         return new RedirectView( "/action/add/{userId}",true);
     }
 
@@ -86,7 +100,7 @@ public class UserController {
         model.addAttribute("userId",uid);
         model.addAttribute("category",usersRepoI.findById(uid).get().getCategories());
         model.addAttribute("Items",items);
-
+        model.addAttribute("cName","View All Items");
         return new ModelAndView("view_items");
     }
 
@@ -127,5 +141,25 @@ public class UserController {
         attributes.addAttribute("userId", userId);
         return new RedirectView("/action/edit/{userId}",true);
     }
+
+    @GetMapping("/shoppingList/{userId}")
+    public ModelAndView generateShoppingList(@PathVariable(name="userId") int uid, Model model){
+        List<Items> items = (itemsRepoI.findByUser(usersRepoI.findById(uid).get()));
+        model.addAttribute("name",usersRepoI.findById(uid).get().getName());
+        model.addAttribute("userId",uid);
+        model.addAttribute("Items",items);
+        return new ModelAndView("shopping_list");
+    }
+
+    @PostMapping("/getShoppingList/{userId}")
+    public ModelAndView getShoppingList(@PathVariable(name="userId") int uid,@RequestParam("") Model model){
+
+
+//        model.addAttribute("name",usersRepoI.findById(uid).get().getName());
+//        model.addAttribute("userId",uid);
+//        model.addAttribute("Items",items);
+        return new ModelAndView("shopping_list");
+    }
+
 
 }

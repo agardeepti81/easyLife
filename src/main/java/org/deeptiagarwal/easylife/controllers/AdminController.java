@@ -42,6 +42,7 @@ public class AdminController {
         this.itemsServices = itemsServices;
     }
 
+//    Display admin dashboard
     @GetMapping("/{userId}")
     public String adminDashboard(@PathVariable(name = "userId") int userId, Model model){
         List<Users> allUsers = usersRepoI.findAll();
@@ -58,6 +59,7 @@ public class AdminController {
         return "admin";
     }
 
+    //Add new role to an authGroup User
     @PostMapping("/newAuthGroup/{userId}")
     public RedirectView addNewAuthGroup(@ModelAttribute("authGroup") AuthGroup newAuthGroup, @PathVariable(name="userId") int userId, RedirectAttributes attributes){
         authGroupRepoI.save(newAuthGroup);
@@ -65,6 +67,7 @@ public class AdminController {
         return new RedirectView("/admin/{userId}",true);
     }
 
+    //Admin can add new category into the database using this controller
     @PostMapping("/newCategory/{userId}")
     public RedirectView addNewCategory(@RequestParam("Category") String category, @PathVariable(name="userId") int userId, RedirectAttributes attributes){
         Categories newCategory = new Categories(category);

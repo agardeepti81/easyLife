@@ -33,12 +33,14 @@ public class HomeController {
         this.userServices = userServices;
     }
 
+    //Display homepage, user can login or create a new account using this page
     @GetMapping(value = {"/", "index"})
     public String homePage(){
         log.info("Return Homepage");
         return "index";
     }
 
+    //User login processing and returning of user dashboard
     @PostMapping("/user_login")
     public String userLogin(@RequestParam("email") String email, @RequestParam("password") String password, Model model){
         Users existinguser = new Users();

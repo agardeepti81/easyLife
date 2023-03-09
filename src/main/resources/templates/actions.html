@@ -35,26 +35,30 @@
     <div class="col-1"></div>    
     <div class="col-2 card text-center bg-warning ms-3 mb-3 me-5">
         <div class="card-body">
-            <a th:href="@{/action/add/}+${userId}" target="_parent" class="text-decoration-none"><h5 class="card-text text-dark">Add/Create</h5></a>
+            <a th:href="@{/action/add/}+${userId}" target="_parent" class="text-decoration-none">
+                <h5 class="card-text text-dark">Add/Create</h5></a>
         </div>
     </div>    
     <!-- <div class="col-1"></div> -->
     <div class="col-2 card text-center bg-warning mb-3 me-5">
         <div class="card-body">
             
-            <a th:href="@{/action/edit/}+${userId}" class="text-decoration-none text-dark" target="_parent"><h5 class="card-text">Update/Delete</h5></a>
+            <a th:href="@{/action/edit/}+${userId}" class="text-decoration-none" target="_parent">
+                <h5 class="card-text text-dark">Update/Delete</h5></a>
         </div>
     </div>  
     <!-- <div class="col-1"></div> -->
     <div class="col-2 card text-center bg-warning mb-3 me-5">
         <div class="card-body">
-            <a th:href="@{/action/view/}+${userId}" target="_parent" class="text-decoration-none"><h5 class="card-text text-dark">View</h5></a>
+            <a th:href="@{/action/view/}+${userId}" target="_parent" class="text-decoration-none">
+                <h5 class="card-text text-dark">View</h5></a>
         </div>
     </div>  
     <!-- <div class="col-1"></div> -->
     <div class="col-2 card text-center bg-warning mb-3 me-5">
         <div class="card-body">
-            <h5 class="card-text text-decoration-none text-dark">Shopping List</h5>
+            <a th:href="@{/action/shoppingList/}+${userId}" target="_parent" class="text-decoration-none">
+            <h5 class="card-text text-dark">Shopping List</h5></a>
         </div>
     </div>  
     <div class="col-1"></div>

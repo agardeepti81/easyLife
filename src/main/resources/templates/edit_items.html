@@ -119,21 +119,20 @@
                                     </div>
                                     <p class="mb-1 text-start fw-bold">Unit</p>
                                     <div class="form-outline w-25">
-                                        <select id="measuringUnit" name="measuringUnit" class="form-control"
-                                            th:placeholder="${item.measuringUnit}" th:value="${item.measuringUnit}">
-                                            <option>bottle</option>
-                                            <option>box</option>
-                                            <option>cans</option>
-                                            <option>count</option>
-                                            <option>gallon</option>
-                                            <option>jar</option>
-                                            <option>lbs</option>
-                                            <option>liter</option>
-                                            <option>oz</option>
-                                            <option>pkt</option>
-                                            <option>quart</option>
-                                            <option>qty</option>
-                                            <option>unit</option>
+                                        <select id="measuringUnit" name="measuringUnit" class="form-control" th:value="${item.measuringUnit}">
+                                            <option th:value="bottle" th:selected="${option == item.measuringUnit}" ? true : false>bottle</option>
+                                            <option th:value="box" th:selected="${option == item.measuringUnit}">box</option>
+                                            <option th:value="cans" th:selected="${option == item.measuringUnit}">cans</option>
+                                            <option th:value="count" th:selected="${option == item.measuringUnit}">count</option>
+                                            <option th:value="gallon" th:selected="${option == item.measuringUnit}">gallon</option>
+                                            <option th:value="jar" th:selected="${option == item.measuringUnit}">jar</option>
+                                            <option th:value="lbs" th:selected="${option == item.measuringUnit}">lbs</option>
+                                            <option th:value="liter" th:selected="${option == item.measuringUnit}">liter</option>
+                                            <option th:value="oz" th:selected="${option == item.measuringUnit}">oz</option>
+                                            <option th:value="pkt" th:selected="${option == item.measuringUnit}" ? true : false>pkt</option>
+                                            <option th:value="quart" th:selected="${option == item.measuringUnit}">quart</option>
+                                            <option th:value="qty" th:selected="${option == item.measuringUnit}">qty</option>
+                                            <option th:value="unit" th:selected="${option == item.measuringUnit}">unit</option>
                                         </select>
                                         <label class="form-label" for="measuringUnit"></label>
                                     </div>
