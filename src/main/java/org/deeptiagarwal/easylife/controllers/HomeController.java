@@ -5,6 +5,7 @@ package org.deeptiagarwal.easylife.controllers;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.deeptiagarwal.easylife.dao.AuthGroupRepoI;
 import org.deeptiagarwal.easylife.services.UserServices;
 import org.deeptiagarwal.easylife.dao.CategoriesRepoI;
 import org.deeptiagarwal.easylife.dao.ItemsRepoI;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 
 @Controller
 @Slf4j
@@ -33,54 +36,44 @@ public class HomeController {
         this.userServices = userServices;
     }
 
+
     //Display homepage, user can login or create a new account using this page
-    @GetMapping(value = {"/", "index"})
+    @GetMapping(value = {"/","/index"})
     public String homePage(){
         log.info("Return Homepage");
         return "index";
     }
 
     //User login processing and returning of user dashboard
-    @PostMapping("/user_login")
-    public String userLogin(@RequestParam("email") String email, @RequestParam("password") String password, Model model){
-        Users existinguser = new Users();
-        existinguser = usersRepoI.findByEmail(email);
-        if(existinguser == null)
-        {
-            model.addAttribute("notExist","A User with this email does not exist");
-            return "index";
-        }
-        else if(existinguser != null)
-        {
-            if(usersRepoI.findByEmailAndPassword(email, password) == null)
-            {
-                model.addAttribute("notExist","Please enter the correct password.");
-                return "index";
-            }
-        }
-        model.addAttribute("name", existinguser.getName());
-        model.addAttribute("userId",existinguser.getUid());
-        log.warn("User login successful!!");
+    @GetMapping("/index/dashboard")
+    public String userLogin(Principal principal, Model model){
+        String email = principal.getName();
+        log.warn("Principal Name "+email);
+        Users existingUser = usersRepoI.findByEmail(email);
+        int userId = existingUser.getUid();
+        String name = existingUser.getName();
+        model.addAttribute("name", name);
+        model.addAttribute("userId",userId);
         return "actions";
     }
 
-    @PostMapping("/user_registration")
+    @PostMapping("/index/user_registration")
     public String userRegistration(@ModelAttribute("newUser") Users newUser) throws Exception {
         log.warn("User registration method" + newUser);
         log.warn(newUser.toString());
-        usersRepoI.save(newUser);
-        userServices.addCategoriesToUser(newUser);
-        userServices.addRolesToUser(newUser);
+//        usersRepoI.save(newUser);
+//        userServices.addCategoriesToUser(newUser);
+//        userServices.addRolesToUser(newUser);
         log.warn("New User Registration Done Successfully");
         return "index";
     }
 
-    @GetMapping("/error")
+    @GetMapping("/index/error")
     public String errorPage(){
         return "error";
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/index/logout")
     public String logoutPage(){
         return "logout";
     }

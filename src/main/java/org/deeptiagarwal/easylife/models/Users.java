@@ -14,6 +14,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
 
@@ -35,21 +36,40 @@ public class Users {
     String name;
 
     @NonNull
-    @Pattern(regexp = "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$")
+//    @Pattern(regexp = "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$")
     @Email
     String email;
 
+    @Setter(AccessLevel.NONE)
     @NonNull
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])([a-zA-Z0-9@$!%*?&]{8,})$")
+//    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])([a-zA-Z0-9@$!%*?&]{8,})$")
     String password;
+
+    public String setPassword(String password) {
+        return this.password = new BCryptPasswordEncoder().encode(password);
+    }
 
 
     public Users(@NonNull String name, @NonNull String email, @NonNull String password) {
         this.name = name;
         this.email = email;
-        this.password = password;
+        this.password = setPassword(password);
     }
 
+    public Users(@NonNull String name, @NonNull String email, @NonNull String password, List<Categories> categories) {
+        this.name = name;
+        this.email = email;
+        this.password = setPassword(password);
+        this.categories = categories;
+    }
+
+    public Users(@NonNull String name, @NonNull String email, @NonNull String password, List<Categories> categories, Set<Items> items) {
+        this.name = name;
+        this.email = email;
+        this.password = setPassword(password);
+        this.categories = categories;
+        this.items = items;
+    }
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "users_categories",

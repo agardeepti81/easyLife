@@ -21,7 +21,7 @@
           <div th:insert="~{fragments/fragment.html :: carousel}"></div>
         </div>
         <div id="form1" class="col-4 text-center bg-warning custom-margins">
-            <form method="post" th:action="@{/user_login}"
+            <form method="post" th:action="@{/index/processing}"
             class="d-inline-block align-items-center justify-content-center mt-5">
               <h6>Please login to your account</h6>
               <div class="form-outline mt-4 mb-2">
@@ -52,7 +52,7 @@
             </form>  
         </div>
         <div id="form2" class="col-4 text-center bg-warning custom-margins">
-            <form method="post" th:action="@{/user_registration}" th:object="${newUser}" class="d-inline-block align-items-center justify-content-center mt-4" >
+            <form method="post" th:action="@{/index/user_registration}" th:object="${newUser}" class="d-inline-block align-items-center justify-content-center mt-4" >
               <h6>Please create your account</h6>
               <div class="form-outline mt-4 mb-1">
                 <input type="text" id="name" name="name" class="form-control"

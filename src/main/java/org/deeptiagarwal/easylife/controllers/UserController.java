@@ -46,6 +46,7 @@ public class UserController {
         this.message = message;
     }
 
+
     @GetMapping("/add/{userId}")
     public String getUserWithID(@PathVariable(name = "userId") int id, Model model, @RequestParam(name = "msg",defaultValue = "") String msg) throws Exception {
         List<Categories> categoryList = userServices.getCategories(usersRepoI.findById(id).get());

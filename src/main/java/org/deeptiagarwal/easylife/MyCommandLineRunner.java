@@ -174,7 +174,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
         itemsRepoI.save(item35);
         itemsRepoI.save(item36);
 
-//        userServices.addCategoriesToUser(user1);
+        userServices.addCategoriesToUser(user1);
         userServices.addCategoriesToUser(user2);
         userServices.addCategoriesToUser(user3);
         userServices.addCategoriesToUser(user4);
