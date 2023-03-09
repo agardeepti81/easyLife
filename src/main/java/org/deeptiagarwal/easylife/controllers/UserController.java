@@ -5,6 +5,7 @@ package org.deeptiagarwal.easylife.controllers;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.bcel.Const;
 import org.deeptiagarwal.easylife.dao.CategoriesRepoI;
 import org.deeptiagarwal.easylife.dao.ItemsRepoI;
 import org.deeptiagarwal.easylife.models.Categories;
@@ -13,6 +14,7 @@ import org.deeptiagarwal.easylife.dao.UsersRepoI;
 import org.deeptiagarwal.easylife.models.Items;
 import org.deeptiagarwal.easylife.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -76,7 +78,7 @@ public class UserController {
     }
 
     @GetMapping("/view/{userId}")
-    public String viewItems(@PathVariable(name = "userId") int id, Model model) throws Exception {
+    public String viewItems(@PathVariable(name = "userId") int id, Model model) {
         model.addAttribute("name",usersRepoI.findById(id).get().getName());
         model.addAttribute("userId",id);
         model.addAttribute("category",usersRepoI.findById(id).get().getCategories());
@@ -106,7 +108,7 @@ public class UserController {
     }
 
     @GetMapping("/edit/{userId}")
-    public String editItems(@PathVariable(name = "userId") int id, Model model) throws Exception {
+    public String editItems(@PathVariable(name = "userId") int id, Model model){
         model.addAttribute("name",usersRepoI.findById(id).get().getName());
         model.addAttribute("userId",id);
         model.addAttribute("category",usersRepoI.findById(id).get().getCategories());

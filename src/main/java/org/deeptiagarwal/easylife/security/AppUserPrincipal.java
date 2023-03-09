@@ -2,14 +2,12 @@ package org.deeptiagarwal.easylife.security;
 
 import org.deeptiagarwal.easylife.models.AuthGroup;
 import org.deeptiagarwal.easylife.models.Users;
-import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AppUserPrincipal implements UserDetails {
 
@@ -23,7 +21,7 @@ public class AppUserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authGroup.stream().map( auth -> new SimpleGrantedAuthority(auth.getRole())).collect(Collectors.toList());
+        return authGroup.stream().map( auth -> new SimpleGrantedAuthority(auth.getRole())).toList();
     }
 
     @Override

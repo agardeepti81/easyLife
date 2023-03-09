@@ -61,9 +61,9 @@ public class HomeController {
     public String userRegistration(@ModelAttribute("newUser") Users newUser) throws Exception {
         log.warn("User registration method" + newUser);
         log.warn(newUser.toString());
-//        usersRepoI.save(newUser);
-//        userServices.addCategoriesToUser(newUser);
-//        userServices.addRolesToUser(newUser);
+        usersRepoI.save(newUser);
+        userServices.addCategoriesToUser(newUser);
+        userServices.addRolesToUser(newUser);
         log.warn("New User Registration Done Successfully");
         return "index";
     }

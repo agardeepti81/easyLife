@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -26,7 +25,7 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name="users")
-public class Users {
+public class Users{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int uid;
@@ -46,7 +45,8 @@ public class Users {
     String password;
 
     public String setPassword(String password) {
-        return this.password = new BCryptPasswordEncoder().encode(password);
+        this.password = new BCryptPasswordEncoder().encode(password);
+        return this.password;
     }
 
 
