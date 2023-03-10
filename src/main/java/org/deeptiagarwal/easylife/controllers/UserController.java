@@ -5,7 +5,6 @@ package org.deeptiagarwal.easylife.controllers;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.bcel.Const;
 import org.deeptiagarwal.easylife.dao.CategoriesRepoI;
 import org.deeptiagarwal.easylife.dao.ItemsRepoI;
 import org.deeptiagarwal.easylife.models.Categories;
@@ -15,7 +14,6 @@ import org.deeptiagarwal.easylife.dao.UsersRepoI;
 import org.deeptiagarwal.easylife.models.Items;
 import org.deeptiagarwal.easylife.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +21,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.security.Principal;
 import java.util.*;
 
 @Controller
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequestMapping("/action")
+
 public class UserController {
     CategoriesRepoI categoriesRepoI;
     UsersRepoI usersRepoI;
@@ -37,8 +37,6 @@ public class UserController {
     UserServices userServices;
     ItemsServices itemsServices;
 
-    List<String> message = new ArrayList<>();
-
     @Autowired
     public UserController(CategoriesRepoI categoriesRepoI, UsersRepoI usersRepoI, ItemsRepoI itemsRepoI, UserServices userServices, ItemsServices itemsServices, List<String> message) {
         this.categoriesRepoI = categoriesRepoI;
@@ -46,9 +44,7 @@ public class UserController {
         this.itemsRepoI = itemsRepoI;
         this.userServices = userServices;
         this.itemsServices = itemsServices;
-        this.message = message;
     }
-
 
     @GetMapping("/add/{userId}")
     public String getUserWithID(@PathVariable(name = "userId") int id, Model model, @RequestParam(name = "msg",defaultValue = "") String msg) throws Exception {
@@ -56,12 +52,11 @@ public class UserController {
         {
             Users user = usersRepoI.findById(id).get();
             List<Categories> categoryList = userServices.getCategories(user);
-            message.add(msg);
             model.addAttribute("name",user.getName());
-//            model.addAttribute("userId",id);
+            model.addAttribute("userId",id);
             model.addAttribute("category",user.getCategories());
             model.addAttribute("cList",categoryList);
-            model.addAttribute("msg",message);
+            model.addAttribute("msg",msg);
         }
         return "add_items";
     }

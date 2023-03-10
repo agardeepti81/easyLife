@@ -8,10 +8,7 @@ import jakarta.persistence.*;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -33,17 +30,29 @@ public class Users{
     int uid;
 
     @NonNull
-    @NotBlank(message = "Name field cannot be empty")
-    @Size(min = 3, max = 25, message = "Name cannot be less then 3 characters")
+    @NotBlank
+    @Size(min = 3, max = 25)
     String name;
 
     @NonNull
-    @Email(message = "Please provide a valid email.")
+    @Email
     String email;
 
     @Setter(AccessLevel.NONE)
     @NonNull
     String password;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(name = "users_categories",
+            joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "uid"),
+            inverseJoinColumns = @JoinColumn(name = "categories_id", referencedColumnName = "cid"))
+    @JsonManagedReference
+    List<Categories> categories = new LinkedList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    Set<Items> items = new LinkedHashSet<>();
+
+
 
     public String setPassword(String password) {
         this.password = new BCryptPasswordEncoder().encode(password);
@@ -71,17 +80,6 @@ public class Users{
         this.categories = categories;
         this.items = items;
     }
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "users_categories",
-            joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "uid"),
-            inverseJoinColumns = @JoinColumn(name = "categories_id", referencedColumnName = "cid"))
-    @JsonManagedReference
-    List<Categories> categories = new LinkedList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<Items> items = new LinkedHashSet<>();
-
 
     @Override
     public boolean equals(Object o) {
@@ -112,5 +110,4 @@ public class Users{
         items.remove(i);
         i.setUser(null);
     }
-
 }
