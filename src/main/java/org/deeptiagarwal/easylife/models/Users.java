@@ -78,7 +78,7 @@ public class Users{
     @JsonManagedReference
     List<Categories> categories = new LinkedList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<Items> items = new LinkedHashSet<>();
 
 

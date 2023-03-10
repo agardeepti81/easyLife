@@ -9,6 +9,7 @@ import org.apache.tomcat.util.bcel.Const;
 import org.deeptiagarwal.easylife.dao.CategoriesRepoI;
 import org.deeptiagarwal.easylife.dao.ItemsRepoI;
 import org.deeptiagarwal.easylife.models.Categories;
+import org.deeptiagarwal.easylife.models.Users;
 import org.deeptiagarwal.easylife.services.ItemsServices;
 import org.deeptiagarwal.easylife.dao.UsersRepoI;
 import org.deeptiagarwal.easylife.models.Items;
@@ -51,13 +52,17 @@ public class UserController {
 
     @GetMapping("/add/{userId}")
     public String getUserWithID(@PathVariable(name = "userId") int id, Model model, @RequestParam(name = "msg",defaultValue = "") String msg) throws Exception {
-        List<Categories> categoryList = userServices.getCategories(usersRepoI.findById(id).get());
-        message.add(msg);
-        model.addAttribute("name",usersRepoI.findById(id).get().getName());
-        model.addAttribute("userId",id);
-        model.addAttribute("category",usersRepoI.findById(id).get().getCategories());
-        model.addAttribute("cList",categoryList);
-        model.addAttribute("msg",message);
+        if(usersRepoI.findById(id) != null)
+        {
+            Users user = usersRepoI.findById(id).get();
+            List<Categories> categoryList = userServices.getCategories(user);
+            message.add(msg);
+            model.addAttribute("name",user.getName());
+//            model.addAttribute("userId",id);
+            model.addAttribute("category",user.getCategories());
+            model.addAttribute("cList",categoryList);
+            model.addAttribute("msg",message);
+        }
         return "add_items";
     }
 
@@ -156,8 +161,6 @@ public class UserController {
 
     @PostMapping("/getShoppingList/{userId}")
     public ModelAndView getShoppingList(@PathVariable(name="userId") int uid,@RequestParam("") Model model){
-
-
 //        model.addAttribute("name",usersRepoI.findById(uid).get().getName());
 //        model.addAttribute("userId",uid);
 //        model.addAttribute("Items",items);

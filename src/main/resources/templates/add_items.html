@@ -21,6 +21,7 @@
                   </button>
                   <div class="dropdown-menu" aria-labelledby="userMenu">
                   <a class="dropdown-item" th:href="@{/admin/}+${userId}">Admin Page</a>
+                  <a class="dropdown-item" th:href="@{/index/dashboard}">Dashboard</a>
                   <a class="dropdown-item" th:href="@{/action/edit/}+${userId}">Update</a>
                   <a class="dropdown-item" th:href="@{/action/view/}+${userId}">View</a>
                   <a class="dropdown-item" th:href="@{/logout}">Logout</a>
