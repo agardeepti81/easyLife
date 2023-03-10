@@ -96,13 +96,13 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
                 </thead>
                 <tbody>
                     <tr th:if="${users}" th:each="user: ${users}">
-                        <td th:text="${user.uid}"></td>
-                        <td th:text="${user.name}"></td>
-                        <td th:text="${user.email}"></td>
+                        <td class="fw-bold" th:text="${user.uid}"></td>
+                        <td class="fw-bold" th:text="${user.name}"></td>
+                        <td class="fw-bold" th:text="${user.email}"></td>
                         <td>
                             <span th:if=${user.categories} th:each="category: ${user.categories}">
-                              <span th:text="${category.categoryName}" class="mx-1"></span>
-                              <hr />
+                              <span class="bg-gradient mx-1" th:text="${category.categoryName}"></span>
+                            <hr/>
                             </span>
                         </td> 
                     </tr>
@@ -150,6 +150,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
                         <input type="email" class="form-control" id="email" name="email" 
                         pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$">
                     </div>
+                    
                     <p class="mb-1 text-start fw-bold">Role</p>
                     <div class="form-outline w-50">
                         <select class="form-control" id="role" name="role">

@@ -5,6 +5,7 @@ package org.deeptiagarwal.easylife.controllers;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.el.stream.Optional;
 import org.deeptiagarwal.easylife.dao.CategoriesRepoI;
 import org.deeptiagarwal.easylife.dao.ItemsRepoI;
 import org.deeptiagarwal.easylife.models.Categories;
@@ -48,8 +49,6 @@ public class UserController {
 
     @GetMapping("/add/{userId}")
     public String getUserWithID(@PathVariable(name = "userId") int id, Model model, @RequestParam(name = "msg",defaultValue = "") String msg) throws Exception {
-        if(usersRepoI.findById(id) != null)
-        {
             Users user = usersRepoI.findById(id).get();
             List<Categories> categoryList = userServices.getCategories(user);
             model.addAttribute("name",user.getName());
@@ -57,8 +56,7 @@ public class UserController {
             model.addAttribute("category",user.getCategories());
             model.addAttribute("cList",categoryList);
             model.addAttribute("msg",msg);
-        }
-        return "add_items";
+            return "add_items";
     }
 
     @PostMapping("/additem/{userId}/{cId}")

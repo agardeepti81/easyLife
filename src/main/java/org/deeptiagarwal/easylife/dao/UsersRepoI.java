@@ -12,9 +12,7 @@ import java.util.Optional;
 @Repository
 public interface UsersRepoI extends JpaRepository<Users,Integer> {
 
-    Users findByEmailAndPassword(String email, String password);
-
-    Users findByEmail(String email);
+    Optional<Users> findByEmail(String email);
 
     Optional<Users> findByEmailAllIgnoreCase(String username);
 }

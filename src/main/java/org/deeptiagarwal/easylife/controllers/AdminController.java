@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @Slf4j
@@ -51,6 +53,11 @@ public class AdminController {
         List<Categories> allCategories = categoriesRepoI.findAll();
         List<Items> allItems = itemsRepoI.findAll();
         String name = usersRepoI.findById(userId).get().getName();
+        Set<String> distinctEmail = new HashSet<>();
+        for (int i = 0; i < allAuthGroupUsers.size(); i++) {
+            distinctEmail.add(allAuthGroupUsers.get(i).getEmail());
+        }
+        log.warn(distinctEmail.toString());
         model.addAttribute("name",name);
         model.addAttribute("users",allUsers);
         model.addAttribute("authUsers",allAuthGroupUsers);
@@ -65,6 +72,7 @@ public class AdminController {
     public RedirectView addNewAuthGroup(@ModelAttribute("authGroup") AuthGroup newAuthGroup, @PathVariable(name="userId") int userId, RedirectAttributes attributes){
         authGroupRepoI.save(newAuthGroup);
         attributes.addAttribute("userId",userId);
+        log.warn("New authGroup added.");
         return new RedirectView("/admin/{userId}",true);
     }
 
@@ -73,6 +81,7 @@ public class AdminController {
     public RedirectView addNewCategory(@RequestParam("Category") String category, @PathVariable(name="userId") int userId, RedirectAttributes attributes){
         Categories newCategory = new Categories(category);
         categoriesRepoI.save(newCategory);
+        log.warn("new category added "+newCategory);
         attributes.addAttribute("userId",userId);
         return new RedirectView("/admin/{userId}",true);
     }

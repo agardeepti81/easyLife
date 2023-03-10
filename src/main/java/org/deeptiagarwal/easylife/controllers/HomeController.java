@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -50,11 +51,12 @@ public class HomeController {
     public String userLogin(Principal principal, Model model){
         String email = principal.getName();
         log.warn("Principal Name "+email);
-        Users existingUser = usersRepoI.findByEmail(email);
-        int userId = existingUser.getUid();
-        String name = existingUser.getName();
+        Optional<Users> existingUser = usersRepoI.findByEmail(email);
+        if(existingUser.isPresent()){
+        int userId = existingUser.get().getUid();
+        String name = existingUser.get().getName();
         model.addAttribute("name", name);
-        model.addAttribute("userId",userId);
+        model.addAttribute("userId",userId);}
         return "actions";
     }
 
