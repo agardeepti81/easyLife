@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -152,8 +153,8 @@
                     <p class="mb-1 text-start fw-bold">Role</p>
                     <div class="form-outline w-50">
                         <select class="form-control" id="role" name="role">
-                            <option>ROLE_USER</option>
                             <option>ROLE_ADMIN</option>
+                            <option>ROLE_USER</option>
                         </select>
                         <label class="form-label" for="role"></label>
                     </div>

@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -31,17 +33,16 @@ public class Users{
     int uid;
 
     @NonNull
-    @Size(min = 3, max = 25)
+    @NotBlank(message = "Name field cannot be empty")
+    @Size(min = 3, max = 25, message = "Name cannot be less then 3 characters")
     String name;
 
     @NonNull
-//    @Pattern(regexp = "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$")
-    @Email
+    @Email(message = "Please provide a valid email.")
     String email;
 
     @Setter(AccessLevel.NONE)
     @NonNull
-//    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])([a-zA-Z0-9@$!%*?&]{8,})$")
     String password;
 
     public String setPassword(String password) {
