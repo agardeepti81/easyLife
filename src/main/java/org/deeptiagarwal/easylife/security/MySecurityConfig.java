@@ -55,7 +55,7 @@ public class MySecurityConfig  {
                         .passwordParameter("password")
                         .loginProcessingUrl("/index/processing")
                         .defaultSuccessUrl("/index/dashboard")
-                        .failureUrl("/index/error?error=true")
+                        .failureUrl("/index?error=true")
                         .permitAll()
                 )
                 .logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/index/logout")
