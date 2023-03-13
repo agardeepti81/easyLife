@@ -22,11 +22,13 @@ when you need to make a shopping list you will save time using this application.
 ## Usage/Examples
 
 ```MySQL
-Set the username and password of your MySQL database in application.properties file for this project to run on your machine.
+Set the username and password of your MySQL database in application.properties file for this project 
+to run on your machine.
 ```
 
 ```MariaDB/H2
-In case of MariaDB/H2 user need to change driver settings along with username/password in application.properties file.
+In case of MariaDB/H2 user need to change driver settings along with username/password 
+in application.properties file.
 ```
 
 
