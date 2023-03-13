@@ -8,6 +8,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <title>Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/mystyles.css}">
+
 </head>
 <body>
 <div class="container-fluid mt-1">
@@ -21,7 +22,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
                     Dropdown button
                   </button>
                   <div class="dropdown-menu" aria-labelledby="userMenu">
-                  <a class="dropdown-item" th:href="@{/action/add/}+${userId}">Add</a>
+                  <a class="dropdown-item" th:href="@{/action/add}">Add</a>
                   <a class="dropdown-item" th:href="@{/action/edit/}+${userId}">Update</a>
                   <a class="dropdown-item" th:href="@{/action/view/}+${userId}">View</a>
                   <a class="dropdown-item" th:href="@{/logout}">Logout</a>
@@ -142,15 +143,15 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="newAuthForm" method="post" th:action="@{/admin/newAuthGroup/}+${userId}"
+                    <form id="newAuthForm" method="post" th:action="@{/admin/newAuthGroup}"
                         th:object="${authGroup}">
                     <p class="mb-1 text-start fw-bold">Email</p>
                     <div class="form-outline w-75">
-                        <label for="email" class="form-label"></label>
-                        <input type="email" class="form-control" id="email" name="email" 
-                        pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$">
+                        <select type="email" id="email" name="email" class="form-control mb-2 dropdown">
+                            <option th:each="email: ${distinctEmail}" th:value=${email} th:text="${email}"></option>
+                        </select> 
                     </div>
-                    
+                   
                     <p class="mb-1 text-start fw-bold">Role</p>
                     <div class="form-outline w-50">
                         <select class="form-control" id="role" name="role">
@@ -181,7 +182,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
                 </thead>
                 <tbody>
                     <tr th:if="${categories}" th:each="category: ${categories}">
-                        <td th:text="${category.cid}"></td>
+                        <td class="fw-bold" th:text="${category.cid}"></td>
                         <td th:text="${category.categoryName}"></td>
                     </tr>
                 </tbody>
@@ -199,7 +200,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="newCategory" method="post" th:action="@{/admin/newCategory/}+${userId}">
+                    <form id="newCategory" method="post" th:action="@{/admin/newCategory}">
                     <p class="mb-1 text-start fw-bold">Category Name</p>
                     <div class="form-outline w-75">
                         <label for="newCategory" class="form-label"></label>
@@ -232,7 +233,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
                 </thead>
                 <tbody>
                     <tr th:if="${items}" th:each="item: ${items}">
-                        <td th:text="${item.id}"></td>
+                        <td class="fw-bold" th:text="${item.id}"></td>
                         <td th:text="${item.itemName}"></td>
                         <td th:text="${item.quantity}"></td>
                         <td th:text="${item.measuringUnit}"></td>

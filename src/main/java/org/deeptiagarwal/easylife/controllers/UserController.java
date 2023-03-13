@@ -2,10 +2,11 @@
 
 package org.deeptiagarwal.easylife.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.el.stream.Optional;
 import org.deeptiagarwal.easylife.dao.CategoriesRepoI;
 import org.deeptiagarwal.easylife.dao.ItemsRepoI;
 import org.deeptiagarwal.easylife.models.Categories;
@@ -22,12 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.security.Principal;
 import java.util.*;
 
 @Controller
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@SessionAttributes(value = {"userName","userEmail","userId"})
 @RequestMapping("/action")
 
 public class UserController {
@@ -47,100 +48,139 @@ public class UserController {
         this.itemsServices = itemsServices;
     }
 
-    @GetMapping("/add/{userId}")
-    public String getUserWithID(@PathVariable(name = "userId") int id, Model model, @RequestParam(name = "msg",defaultValue = "") String msg) throws Exception {
-            Users user = usersRepoI.findById(id).get();
-            List<Categories> categoryList = userServices.getCategories(user);
-            model.addAttribute("name",user.getName());
-            model.addAttribute("userId",id);
-            model.addAttribute("category",user.getCategories());
-            model.addAttribute("cList",categoryList);
-            model.addAttribute("msg",msg);
-            return "add_items";
+    //mapping for add items page, shows users all the categories in which they can add an item
+    @GetMapping("/add")
+    public String getUserWithID(Model model, @RequestParam(name = "msg",defaultValue = "") String msg, HttpServletRequest http) throws Exception {
+        HttpSession session = http.getSession();
+        String sessionUserName = session.getAttribute("userName").toString();
+        String sessionUserEmail = session.getAttribute("userEmail").toString();
+        int sessionUserID = Integer.parseInt(session.getAttribute("userId").toString());
+
+        Users user = usersRepoI.findByEmail(sessionUserEmail).get();
+        List<Categories> categoryList = userServices.getCategories(user);
+        model.addAttribute("name",sessionUserName);
+        model.addAttribute("userId",sessionUserID);
+        model.addAttribute("category",user.getCategories());
+        model.addAttribute("cList",categoryList);
+        model.addAttribute("msg",msg);
+        return "add_items";
     }
 
-    @PostMapping("/additem/{userId}/{cId}")
-    public RedirectView addItem(@PathVariable(name = "userId") int uid, @PathVariable(name = "cId") int cid, @ModelAttribute("newItem") Items newItem, RedirectAttributes attributes) throws Exception {
+    //Form processing, add the items entered by user into specific category
+    @PostMapping("/additem/{cId}")
+    public RedirectView addItem(@PathVariable(name = "cId") int cid, @ModelAttribute("newItem") Items newItem, RedirectAttributes attributes, HttpServletRequest http) throws Exception {
         itemsRepoI.save(newItem);
-        itemsServices.addUserAndCategorytoItem(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid).get(),newItem);
-        attributes.addAttribute("userId",uid);
+
+        HttpSession session = http.getSession();
+        int sessionUserID = Integer.parseInt(session.getAttribute("userId").toString());
+
+        itemsServices.addUserAndCategorytoItem(usersRepoI.findById(sessionUserID).get(),categoriesRepoI.findById(cid).get(),newItem);
         attributes.addAttribute("msg",newItem.getItemName()+" successfully added to "+categoriesRepoI.findById(cid).get().getCategoryName());
-        return new RedirectView( "/action/add/{userId}",true);
+        return new RedirectView( "/action/add",true);
     }
 
-    @PostMapping("/addCategory/{userId}")
-    public RedirectView addCategoryToUser(@PathVariable(name = "userId") int uid, @RequestParam("addCategoryName") int cId, RedirectAttributes attributes) throws Exception {
+    //User can choose new category to add to their account from the available categories
+    @PostMapping("/addCategory")
+    public RedirectView addCategoryToUser(@RequestParam("addCategoryName") int cId, HttpServletRequest http) throws Exception {
+        HttpSession session = http.getSession();
+        int sessionUserID = Integer.parseInt(session.getAttribute("userId").toString());
+
         log.warn(String.valueOf(cId));
-        userServices.addCategoryToUser(uid,cId);
-        return new RedirectView( "/action/add/{userId}",true);
+        userServices.addCategoryToUser(sessionUserID,cId);
+        return new RedirectView( "/action/add",true);
     }
 
-    @GetMapping("/view/{userId}")
-    public String viewItems(@PathVariable(name = "userId") int id, Model model) {
-        model.addAttribute("name",usersRepoI.findById(id).get().getName());
-        model.addAttribute("userId",id);
-        model.addAttribute("category",usersRepoI.findById(id).get().getCategories());
+    //Takes the user to view items page and display all categories as buttons and an option to view all
+    @GetMapping("/view")
+    public String viewItems(Model model, HttpServletRequest http) {
+        HttpSession session = http.getSession();
+        String sessionUserName = session.getAttribute("userName").toString();
+        int sessionUserID = Integer.parseInt(session.getAttribute("userId").toString());
+
+        model.addAttribute("name",sessionUserName);
+        model.addAttribute("userId",sessionUserID);
+        model.addAttribute("category",usersRepoI.findById(sessionUserID).get().getCategories());
         return "view_items";
     }
 
-    @GetMapping("/view/{userId}/{cId}")
-    public ModelAndView viewItemsByCategory(@PathVariable(name = "userId") int uid, @PathVariable(name = "cId") int cid, Model model){
-        List<Items> items = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid).get()));
-        model.addAttribute("name",usersRepoI.findById(uid).get().getName());
-        model.addAttribute("userId",uid);
-        model.addAttribute("category",usersRepoI.findById(uid).get().getCategories());
+    //Display the items by category
+    @GetMapping("/view/{cId}")
+    public ModelAndView viewItemsByCategory(@PathVariable(name = "cId") int cid, Model model, HttpServletRequest http){
+        HttpSession session = http.getSession();
+        String sessionUserName = session.getAttribute("userName").toString();
+        int sessionUserID = Integer.parseInt(session.getAttribute("userId").toString());
+
+        List<Items> items = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(sessionUserID).get(),categoriesRepoI.findById(cid).get()));
+        model.addAttribute("name",sessionUserName);
+        model.addAttribute("userId",sessionUserID);
+        model.addAttribute("category",usersRepoI.findById(sessionUserID).get().getCategories());
         model.addAttribute("Items",items);
         model.addAttribute("cName",categoriesRepoI.findById(cid).get().getCategoryName());
         return new ModelAndView("view_items");
     }
 
-    @GetMapping("/viewAll/{userId}")
-    public ModelAndView viewAllItemsForUser(@PathVariable(name = "userId") int uid, Model model){
-        List<Items> items = (itemsRepoI.findByUser(usersRepoI.findById(uid).get()));
-        model.addAttribute("name",usersRepoI.findById(uid).get().getName());
-        model.addAttribute("userId",uid);
-        model.addAttribute("category",usersRepoI.findById(uid).get().getCategories());
+    //Display all items
+    @GetMapping("/viewAll")
+    public ModelAndView viewAllItemsForUser(Model model, HttpServletRequest http){
+        HttpSession session = http.getSession();
+        String sessionUserName = session.getAttribute("userName").toString();
+        int sessionUserID = Integer.parseInt(session.getAttribute("userId").toString());
+
+        List<Items> items = (itemsRepoI.findByUser(usersRepoI.findById(sessionUserID).get()));
+        model.addAttribute("name",sessionUserName);
+        model.addAttribute("userId",sessionUserID);
+        model.addAttribute("category",usersRepoI.findById(sessionUserID).get().getCategories());
         model.addAttribute("Items",items);
         model.addAttribute("cName","View All Items");
         return new ModelAndView("view_items");
     }
 
-    @GetMapping("/edit/{userId}")
-    public String editItems(@PathVariable(name = "userId") int id, Model model){
-        model.addAttribute("name",usersRepoI.findById(id).get().getName());
-        model.addAttribute("userId",id);
-        model.addAttribute("category",usersRepoI.findById(id).get().getCategories());
+    //Takes the user to update items page and display all categories as buttons
+    @GetMapping("/edit")
+    public String editItems(Model model, HttpServletRequest http){
+        HttpSession session = http.getSession();
+        String sessionUserName = session.getAttribute("userName").toString();
+        int sessionUserID = Integer.parseInt(session.getAttribute("userId").toString());
+
+        model.addAttribute("name",sessionUserName);
+        model.addAttribute("userId",sessionUserID);
+        model.addAttribute("category",usersRepoI.findById(sessionUserID).get().getCategories());
         return "edit_items";
     }
 
-    @GetMapping("/edit/{userId}/{cId}")
-    public ModelAndView editItemsByCategory(@PathVariable(name = "userId") int uid, @PathVariable(name = "cId") int cid, Model model){
-        List<Items> items = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(uid).get(),categoriesRepoI.findById(cid).get()));
-        model.addAttribute("name",usersRepoI.findById(uid).get().getName());
-        model.addAttribute("userId",uid);
-        model.addAttribute("category",usersRepoI.findById(uid).get().getCategories());
+    // onclick of category buttons the items appear along with an edit and delete button
+    @GetMapping("/edit/{cId}")
+    public ModelAndView editItemsByCategory(@PathVariable(name = "cId") int cid, Model model, HttpServletRequest http){
+        HttpSession session = http.getSession();
+        String sessionUserName = session.getAttribute("userName").toString();
+        int sessionUserID = Integer.parseInt(session.getAttribute("userId").toString());
+
+        List<Items> items = (itemsRepoI.findByUserAndCategory(usersRepoI.findById(sessionUserID).get(),categoriesRepoI.findById(cid).get()));
+        model.addAttribute("name",sessionUserName);
+        model.addAttribute("userId",sessionUserID);
+        model.addAttribute("category",usersRepoI.findById(sessionUserID).get().getCategories());
         model.addAttribute("Items",items);
         model.addAttribute("cId",cid);
         model.addAttribute("cName",categoriesRepoI.findById(cid).get().getCategoryName());
         return new ModelAndView("edit_items");
     }
 
+    //Edits the selected item
     @PostMapping("/edititem/{itemId}")
     public RedirectView editItems(@PathVariable(name = "itemId") int itemId, @ModelAttribute("editItem") Items editItem, RedirectAttributes attributes) throws Exception {
         int userId = itemsRepoI.findById(itemId).get().getUser().getUid();
         itemsServices.editItem(itemId,editItem);
-        attributes.addAttribute("userId", userId);
         log.warn("Item Edited");
-        return new RedirectView("/action/edit/{userId}",true);
+        return new RedirectView("/action/edit",true);
     }
 
+    //Deletes the selected item
     @GetMapping("/delete/{itemId}")
     public RedirectView deleteItems(@PathVariable(name = "itemId") int itemId, RedirectAttributes attributes) throws Exception {
         int userId = itemsRepoI.findById(itemId).get().getUser().getUid();
         itemsServices.deleteItem(userId,itemId);
         log.warn("Item Deleted");
-        attributes.addAttribute("userId", userId);
-        return new RedirectView("/action/edit/{userId}",true);
+        return new RedirectView("/action/edit",true);
     }
 
     @GetMapping("/shoppingList/{userId}")

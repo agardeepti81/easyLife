@@ -2,6 +2,8 @@
 
 package org.deeptiagarwal.easylife.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,7 @@ import java.util.Optional;
 @Controller
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@SessionAttributes(value = {"userName","userEmail","userId"})
 public class HomeController {
     UsersRepoI usersRepoI;
     CategoriesRepoI categoriesRepoI;
@@ -39,7 +42,7 @@ public class HomeController {
     }
 
 
-    //Display homepage, user can login or create a new account using this page
+    //Display homepage, user can log in or create a new account using this page
     @GetMapping(value = {"/","/index"})
     public String homePage(){
         log.info("Return Homepage");
@@ -48,18 +51,18 @@ public class HomeController {
 
     //User login processing and returning of user dashboard
     @GetMapping("/index/dashboard")
-    public String userLogin(Principal principal, Model model){
-        String email = principal.getName();
-        log.warn("Principal Name "+email);
-        Optional<Users> existingUser = usersRepoI.findByEmail(email);
-        if(existingUser.isPresent()){
-        int userId = existingUser.get().getUid();
-        String name = existingUser.get().getName();
-        model.addAttribute("name", name);
-        model.addAttribute("userId",userId);}
+    public String userLogin(Model model, HttpServletRequest http){
+        HttpSession session = http.getSession();
+        log.warn("Session Id "+session.getId());
+        String sessionUserName = session.getAttribute("userName").toString();
+        String sessionUserEmail = session.getAttribute("userEmail").toString();
+        int sessionUserID = Integer.parseInt(session.getAttribute("userId").toString());
+        model.addAttribute("name", sessionUserName);
+        model.addAttribute("userId",sessionUserID);
         return "actions";
     }
 
+    //Success page after User Registration
     @PostMapping("/index/user_registration")
     public String userRegistration(@ModelAttribute("newUser") Users newUser) throws Exception {
         log.warn("User registration method" + newUser);
@@ -71,14 +74,22 @@ public class HomeController {
         return "index";
     }
 
+    //Mapping for error Page
     @GetMapping("/index/error")
     public String errorPage(){
         return "error";
     }
 
+    //Mapping for logout Page
     @GetMapping("/index/logout")
     public String logoutPage(){
         return "logout";
+    }
+
+    //Mapping for access denied Page
+    @GetMapping("/403")
+    public String accessDenied(){
+        return "403";
     }
 
 }

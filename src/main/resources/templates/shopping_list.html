@@ -42,7 +42,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <div class="row mt-4 pb-3 text-center">
         <div class="col-3"></div>
         <div class="col-6">
-        <form id="shoppingListForm" method="post" th:action="@{/action/getShoppingList/}+${userId}">  
+            <!-- method="post" th:action="@{/action/getShoppingList/}+${userId}" -->
+        <form id="shoppingListForm">  
             <div class="mt-4 mb-2">
             <ul class="form-control">
                 <li th:if=${Items} th:each="item : ${Items}" th:id="${item.id}" th:name="${item.itemName}">
@@ -61,7 +62,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
                 <textarea class="form-control" id="notes" rows="3" name="notes"></textarea>
             </div> -->
             <div class="form-outline w-50 mt-2 mb-2">
-                <button type="submit" class="btn btn-warning mt-2">Save</button>
+                <button type="button" class="btn btn-warning mt-2" onclick="generateShoppingList()">Save</button>
             </div>
         </form>
         </div>
@@ -80,6 +81,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <div th:replace="~{fragments/fragment.html :: foot}"></div>
 
+<script>
+    function generateShoppingList(){
+        let test = document.querySelectorAll("li");
+        console.log(test);
+    }
 </script>
 </body>
 </html>

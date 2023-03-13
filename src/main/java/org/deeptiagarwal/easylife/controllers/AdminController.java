@@ -1,5 +1,7 @@
 package org.deeptiagarwal.easylife.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ import java.util.Set;
 @Controller
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@SessionAttributes(value = {"userName","userEmail","userId"})
 @RequestMapping("/admin")
 public class AdminController {
     UsersRepoI usersRepoI;
@@ -45,44 +48,48 @@ public class AdminController {
         this.itemsServices = itemsServices;
     }
 
-//    Display admin dashboard
-    @GetMapping("/{userId}")
-    public String adminDashboard(@PathVariable(name = "userId") int userId, Model model){
+    //display admin dashboard to authorized admin users
+    @GetMapping("/adminDashboard")
+    public String adminDashboard(Model model, HttpServletRequest http){
+        HttpSession session = http.getSession();
+        String sessionUserName = session.getAttribute("userName").toString();
+        String sessionUserEmail = session.getAttribute("userEmail").toString();
+        int sessionUserID = Integer.parseInt(session.getAttribute("userId").toString());
+
         List<Users> allUsers = usersRepoI.findAll();
         List<AuthGroup> allAuthGroupUsers = authGroupRepoI.findAll();
         List<Categories> allCategories = categoriesRepoI.findAll();
         List<Items> allItems = itemsRepoI.findAll();
-        String name = usersRepoI.findById(userId).get().getName();
+        String name = usersRepoI.findById(sessionUserID).get().getName();
         Set<String> distinctEmail = new HashSet<>();
         for (int i = 0; i < allAuthGroupUsers.size(); i++) {
             distinctEmail.add(allAuthGroupUsers.get(i).getEmail());
         }
-        log.warn(distinctEmail.toString());
-        model.addAttribute("name",name);
+
+        model.addAttribute("name",sessionUserName);
         model.addAttribute("users",allUsers);
         model.addAttribute("authUsers",allAuthGroupUsers);
         model.addAttribute("categories",allCategories);
         model.addAttribute("items",allItems);
-        model.addAttribute("userId",userId);
+        model.addAttribute("userId",sessionUserID);
+        model.addAttribute("distinctEmail",distinctEmail);
         return "admin";
     }
 
-    //Add new role to an authGroup User
-    @PostMapping("/newAuthGroup/{userId}")
-    public RedirectView addNewAuthGroup(@ModelAttribute("authGroup") AuthGroup newAuthGroup, @PathVariable(name="userId") int userId, RedirectAttributes attributes){
+    //Admin can add a new role to an authGroup User
+    @PostMapping("/newAuthGroup")
+    public RedirectView addNewAuthGroup(@ModelAttribute("authGroup") AuthGroup newAuthGroup, RedirectAttributes attributes){
         authGroupRepoI.save(newAuthGroup);
-        attributes.addAttribute("userId",userId);
         log.warn("New authGroup added.");
-        return new RedirectView("/admin/{userId}",true);
+        return new RedirectView("/admin/adminDashboard",true);
     }
 
     //Admin can add new category into the database using this controller
-    @PostMapping("/newCategory/{userId}")
-    public RedirectView addNewCategory(@RequestParam("Category") String category, @PathVariable(name="userId") int userId, RedirectAttributes attributes){
+    @PostMapping("/newCategory")
+    public RedirectView addNewCategory(@RequestParam("Category") String category, RedirectAttributes attributes){
         Categories newCategory = new Categories(category);
         categoriesRepoI.save(newCategory);
         log.warn("new category added "+newCategory);
-        attributes.addAttribute("userId",userId);
-        return new RedirectView("/admin/{userId}",true);
+        return new RedirectView("/admin/adminDashboard",true);
     }
 }

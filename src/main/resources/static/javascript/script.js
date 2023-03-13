@@ -47,7 +47,7 @@ function showInputForm(id){
     button.setAttribute("class","bg-success text-white");
     let form= document.getElementById("form");
     path = form.getAttribute("action");
-    path += "/"+id;
+    path += id;
     form.setAttribute("action",path);
 }
 
