@@ -55,7 +55,6 @@ public class HomeController {
         HttpSession session = http.getSession();
         log.warn("Session Id "+session.getId());
         String sessionUserName = session.getAttribute("userName").toString();
-        String sessionUserEmail = session.getAttribute("userEmail").toString();
         int sessionUserID = Integer.parseInt(session.getAttribute("userId").toString());
         model.addAttribute("name", sessionUserName);
         model.addAttribute("userId",sessionUserID);

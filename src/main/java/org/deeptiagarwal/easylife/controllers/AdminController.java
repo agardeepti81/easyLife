@@ -53,14 +53,12 @@ public class AdminController {
     public String adminDashboard(Model model, HttpServletRequest http){
         HttpSession session = http.getSession();
         String sessionUserName = session.getAttribute("userName").toString();
-        String sessionUserEmail = session.getAttribute("userEmail").toString();
         int sessionUserID = Integer.parseInt(session.getAttribute("userId").toString());
 
         List<Users> allUsers = usersRepoI.findAll();
         List<AuthGroup> allAuthGroupUsers = authGroupRepoI.findAll();
         List<Categories> allCategories = categoriesRepoI.findAll();
         List<Items> allItems = itemsRepoI.findAll();
-        String name = usersRepoI.findById(sessionUserID).get().getName();
         Set<String> distinctEmail = new HashSet<>();
         for (int i = 0; i < allAuthGroupUsers.size(); i++) {
             distinctEmail.add(allAuthGroupUsers.get(i).getEmail());

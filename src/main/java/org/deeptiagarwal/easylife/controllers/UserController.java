@@ -168,7 +168,6 @@ public class UserController {
     //Edits the selected item
     @PostMapping("/edititem/{itemId}")
     public RedirectView editItems(@PathVariable(name = "itemId") int itemId, @ModelAttribute("editItem") Items editItem, RedirectAttributes attributes) throws Exception {
-        int userId = itemsRepoI.findById(itemId).get().getUser().getUid();
         itemsServices.editItem(itemId,editItem);
         log.warn("Item Edited");
         return new RedirectView("/action/edit",true);
