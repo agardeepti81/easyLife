@@ -182,22 +182,5 @@ public class UserController {
         return new RedirectView("/action/edit",true);
     }
 
-    @GetMapping("/shoppingList/{userId}")
-    public ModelAndView generateShoppingList(@PathVariable(name="userId") int uid, Model model){
-        List<Items> items = (itemsRepoI.findByUser(usersRepoI.findById(uid).get()));
-        model.addAttribute("name",usersRepoI.findById(uid).get().getName());
-        model.addAttribute("userId",uid);
-        model.addAttribute("Items",items);
-        return new ModelAndView("shopping_list");
-    }
-
-    @PostMapping("/getShoppingList/{userId}")
-    public ModelAndView getShoppingList(@PathVariable(name="userId") int uid,@RequestParam("") Model model){
-//        model.addAttribute("name",usersRepoI.findById(uid).get().getName());
-//        model.addAttribute("userId",uid);
-//        model.addAttribute("Items",items);
-        return new ModelAndView("shopping_list");
-    }
-
 
 }

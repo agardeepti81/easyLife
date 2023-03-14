@@ -27,42 +27,35 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
             </div>
         </div>
     </header>
-    <div class="row mt-4 mb-2 text-center">
+    <div class="row mt-4 mb-4 text-center">
     <div class="col-3"></div>
     <div class="col-6"><h4 class="myfont">Please choose from the below options</h4></div>
     <div class="col-3"></div>  
     </div>
     <section class="row">
-    <div class="col-1"></div>    
-    <div class="col-2 card text-center bg-warning ms-3 mb-3 me-5">
+    <div class="col-2"></div>    
+    <div class="col-2 card text-center bg-warning">
         <div class="card-body">
             <a th:href="@{/action/add}" target="_parent" class="text-decoration-none">
                 <h5 class="card-text text-dark">Add/Create</h5></a>
         </div>
     </div>    
-
-    <div class="col-2 card text-center bg-warning mb-3 me-5">
+    <div class="col-1"></div>
+    <div class="col-2 card text-center bg-warning">
         <div class="card-body">
             
             <a th:href="@{/action/edit}" class="text-decoration-none" target="_parent">
                 <h5 class="card-text text-dark">Update/Delete</h5></a>
         </div>
     </div>  
-
-    <div class="col-2 card text-center bg-warning mb-3 me-5">
+    <div class="col-1"></div>
+    <div class="col-2 card text-center bg-warning">
         <div class="card-body">
             <a th:href="@{/action/view}" target="_parent" class="text-decoration-none">
                 <h5 class="card-text text-dark">View</h5></a>
         </div>
     </div>  
-  
-    <div class="col-2 card text-center bg-warning mb-3 me-5">
-        <div class="card-body">
-            <a th:href="@{/action/shoppingList/}+${userId}" target="_parent" class="text-decoration-none">
-            <h5 class="card-text text-dark">Shopping List</h5></a>
-        </div>
-    </div>  
-    <div class="col-1"></div>
+    <div class="col-2"></div>
     </section>
 </div>
 
