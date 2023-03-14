@@ -2,7 +2,7 @@
 # Easylife
 
 This is a Household Inventory Management project as the capstone requirement for my Full stack java developer course(15 weeks, Remote) at Per Scholas. 
-This project uses many technologies such as Spring Boot, Java, Spring Security, Spring Data web, HTML, CSS, Javascript, Bootstrap.
+This project uses many technologies such as Spring Boot, Java, Spring Security, Spring Data web, HTML, CSS, JavaScript, Bootstrap.
 
 The inspiration to develop this project arise from everyday need to keep track of the inventory available at your home so that
 when you need to make a shopping list you will save time using this application.
