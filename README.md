@@ -47,7 +47,6 @@ HTML
 CSS
 JavaScript
 BootStrap 5
-Thymeleaf
 
 Server-side Technologies
 Spring Boot
